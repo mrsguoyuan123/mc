@@ -1,0 +1,343 @@
+<template>
+	<view class="page-content">
+		<u-tabbar :value="activeTab" :placeholder="false" @change="name => activeTab = name" :fixed="true"
+			activeColor="rgb(21, 93, 252)" inactiveColor="#d2d6dd" :safeAreaInsetBottom="false">
+			<u-tabbar-item v-for="item in tabList" :key="item.id" :text="item.name" :icon="item.icon"
+				:badge="item.badge" @click="routeTo(item.route)"></u-tabbar-item>
+		</u-tabbar>
+		<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between">
+			<view class="u-flex ">
+				<view class="view-icon bg-orange">
+					<u-icon name="order" color="#ff6900" bold="true" size="25"></u-icon>
+				</view>
+				<view class="view-text">
+					<view class="view-text1 font-l">
+						术后病历查询
+					</view>
+					<view class="view-text2">
+						Medical Records
+					</view>
+				</view>
+
+			</view>
+			<view class="">
+				<u-icon name="arrow-right" color="#909399" size="15"></u-icon>
+			</view>
+
+		</view>
+	
+		<view class="radius-15  bg-white card-border card-border-gray ">
+			<view>基本信息</view>
+			<view>
+				<u--form labelStyle="width:100px;color:#909399;fontSize:.6rem" labelPosition="left" :model="model1"
+					:rules="rules" ref="uForm">
+					<view class="view-between">
+						<u-form-item label="姓名" prop="userInfo.name" labelWidth="100%" labelPosition="top" labelStyle="{
+									    width: '100px',
+									    color: '#606266',
+									    fontWeight: 'bold'
+									  }" ref="item1">
+							<u--input prefixIcon="account" prefixIconStyle="font-size: 22px;color: #447dfd"
+								v-model="model1.userInfo.name"></u--input>
+						</u-form-item>
+						<u-form-item label="性别" labelWidth="100%" prop="userInfo.sex" labelPosition="top"
+							@click="showSex = true; hideKeyboard()" ref="item1">
+							<u--input prefixIconStyle="font-size: 22px;color: #447dfd" prefixIcon="account"
+								v-model="model1.userInfo.sex" disabled disabledColor="#ffffff"
+								placeholder="请选择性别"></u--input>
+							<u-icon slot="right" name="arrow-right"></u-icon>
+						</u-form-item>
+					</view>
+					<u-form-item label="年龄" labelWidth="100%" prop="userInfo.name" labelPosition="top" ref="item1">
+						<u--input type="number" placeholder="前置图标" prefixIcon="order"
+							prefixIconStyle="font-size: 22px;color: #447dfd"></u--input>
+					</u-form-item>
+					<u-form-item label="地区" labelWidth="100%" prop="userInfo.name" labelPosition="top" ref="item1">
+						<u--input placeholder="前置图标" prefixIcon="map"
+							prefixIconStyle="font-size: 22px;color: #447dfd"></u--input>
+					</u-form-item>
+
+
+				</u--form>
+
+				<u-action-sheet :show="showSex" :actions="actions" title="请选择性别" @close="showSex = false"
+					@select="sexSelect">
+				</u-action-sheet>
+
+
+			</view>
+
+		</view>
+		<view class="radius-15  bg-white card-border card-border-gray ">
+			<view>手术信息</view>
+			<view>
+				<u--form labelStyle="width:100px;color:#909399;fontSize:.6rem" labelPosition="left" :model="model1"
+					:rules="rules" ref="uForm">
+
+
+					<u-form-item label="手术医院" labelWidth="100%" prop="userInfo.name" labelPosition="top" ref="item1">
+						<u--input placeholder="前置图标" prefixIcon="coupon"
+							prefixIconStyle="font-size: 22px;color: #447dfd"></u--input>
+					</u-form-item>
+					<u-form-item label="科室" labelWidth="100%" prop="userInfo.name" labelPosition="top" ref="item1">
+						<u--input placeholder="前置图标" prefixIcon="home"
+							prefixIconStyle="font-size: 22px;color: #447dfd"></u--input>
+					</u-form-item>
+					<u-form-item label="手术类别" labelWidth="100%" prop="userInfo.name" labelPosition="top" ref="item1">
+						<u--input placeholder="前置图标" prefixIcon="gift"
+							prefixIconStyle="font-size: 22px;color: #447dfd"></u--input>
+					</u-form-item>
+					<u-form-item label="主刀医生" labelWidth="100%" prop="userInfo.name" labelPosition="top" ref="item1">
+						<u--input placeholder="前置图标" prefixIcon="man-delete"
+							prefixIconStyle="font-size: 22px;color: #447dfd"></u--input>
+					</u-form-item>
+				</u--form>
+
+				<u-action-sheet :show="showSex" :actions="actions" title="请选择性别" @close="showSex = false"
+					@select="sexSelect">
+				</u-action-sheet>
+
+
+			</view>
+
+		</view>
+		<u-button hairline="false" type="error" text="退出当前账号" style="margin: 1rem;"></u-button>
+
+	</view>
+</template>
+
+
+
+<script>
+	export default {
+		data() {
+			return {
+				tabList: [{
+					id: 1,
+					name: "首页",
+					icon: "home",
+					badge: "",
+					route: "home"
+				}, {
+					id: 2,
+					name: "健康",
+					icon: "heart",
+					badge: "",
+					route: "healthCenter"
+				}, {
+					id: 3,
+					name: "消息",
+					icon: "chat",
+					badge: "3",
+					route: "messages"
+				}, {
+					id: 4,
+					name: "我的",
+					icon: "account",
+					badge: "",
+					route: "profile"
+				}],
+				activeTab: 3,
+				isShow: true,
+				showSex: false,
+				message1: "完善专业档案",
+				message2: "您好，患者。请填写以下信息以提供精准服务",
+				model1: {
+					userInfo: {
+						name: '',
+						sex: '',
+					},
+				},
+				actions: [{
+						name: '男',
+					},
+					{
+						name: '女',
+					},
+
+				],
+				rules: {
+					'userInfo.name': {
+						type: 'string',
+						required: true,
+						message: '请填写姓名',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.sex': {
+						type: 'string',
+						max: 1,
+						required: true,
+						message: '请选择性别',
+						trigger: ['blur', 'change']
+					},
+				},
+				radio: '',
+				switchVal: false
+			};
+		},
+		methods: {
+			sexSelect(e) {
+				this.model1.userInfo.sex = e.name
+				this.$refs.uForm.validateField('userInfo.sex')
+			},
+
+
+			routeTo(res) {
+				uni.showLoading()
+				uni.hideLoading()
+
+				let data = {
+					title: 'hello',
+					id: 1
+				}
+
+
+				uni.navigateTo({
+					url: `../index/` + res + `?data=` + encodeURIComponent(JSON.stringify(data))
+				})
+
+			}
+		},
+		onReady() {
+			//如果需要兼容微信小程序，并且校验规则中含有方法等，只能通过setRules方法设置规则。
+			this.$refs.uForm.setRules(this.rules)
+		},
+	};
+</script>
+
+<style scoped lang="scss">
+	.page-content {
+		padding-bottom: 50px;
+	}
+
+	.view-text1 {
+		font-size: 1rem;
+		margin-bottom: 5px;
+		font-weight: bold;
+		// color: #2b85e4;
+	}
+
+
+
+	.icon-wrapper {
+		width: 60px;
+		height: 60px;
+		background-color: #dbf1e1;
+		text-align: center;
+		padding: 20px;
+		border-radius: 100%;
+		margin: 0 auto;
+	}
+
+	.view-h1 {
+		font-weight: bold;
+		/* color: #82848a; */
+		font-size: 1.6rem;
+		margin: 1rem auto;
+		text-align: center;
+	}
+
+	.view-h5 {
+		text-align: center;
+		;
+		font-size: .8rem;
+	}
+
+
+
+	.view-card {
+		padding: 1rem;
+		border-radius: 10px;
+		border: #a0cfff solid 1px;
+		margin: 3rem auto;
+		background-color: #ecf5ff;
+		opacity: .8;
+	}
+
+	.card-top {
+		padding: 1rem;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: nowrap;
+		align-items: center;
+
+	}
+
+	.view-card {
+		padding: 1rem;
+		border-radius: 10px;
+		border: #a0cfff solid 1px;
+		margin: 3rem auto;
+		background-color: #ecf5ff;
+		opacity: .8;
+	}
+
+	.view-icon {
+		padding: 10px;
+		border-radius: 15px;
+		// float: left;
+		// background-color: #eff6ff;
+		margin-right: 10px;
+
+	}
+
+
+	.icon-wrapper {
+		width: 60px;
+		height: 60px;
+		background-color: #dbf1e1;
+		text-align: center;
+		padding: 20px;
+		border-radius: 100%;
+		margin: 0 auto;
+	}
+
+	.view-h1 {
+		font-weight: bold;
+		/* color: #82848a; */
+		font-size: 1.6rem;
+		margin: 1rem auto;
+		text-align: center;
+	}
+
+	.view-h5 {
+		text-align: center;
+		;
+		font-size: .8rem;
+	}
+
+
+	.bg-blue {
+		height: 10rem;
+
+		border-bottom-right-radius: 40px;
+		border-bottom-left-radius: 40px;
+		background-color: #155DFC;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+	}
+
+	.bg-relative {
+		padding: 3rem 1.5rem;
+		position: relative;
+
+
+	}
+
+
+
+
+	.bg-relative .p1 {
+		color: white;
+		font-size: 1.2rem;
+	}
+
+	.bg-relative .p2 {
+		color: white;
+		font-size: .8rem;
+		opacity: .7;
+		margin-top: .5rem;
+	}
+</style>
