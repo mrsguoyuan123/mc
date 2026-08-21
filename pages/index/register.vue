@@ -5,7 +5,7 @@
 		</view>
 		<view class="bg-relative ">
 			<view class="p1">{{message1}}</view>
-			<view class="p2">{{message2}}</view>
+			<view class="p2 margin-bottom-1">{{message2}}</view>
 
 			<view class="bg-white " v-show="isShow">
 				<u--form labelStyle="width:100px;color:#909399;fontSize:.6rem" labelPosition="left" :model="model1"
@@ -61,7 +61,7 @@
 			<view class="bg-white " v-show="!isShow">
 
 				<view class="icon-wrapper">
-					<u-icon name="checkmark-circle" color="#19be6b" bold="true" size="60"></u-icon>
+					<u-icon name="checkmark-circle" color="#19be6b" bold="true" size="50"></u-icon>
 				</view>
 				<view class="view-h1">
 					认证完成
@@ -72,8 +72,8 @@
 				</view>
 				<view class="view-card">
 
-					<view class="view-icon">
-						<u-icon name="account" color="#155DFC" bold="true" size="20"></u-icon>
+					<view class="view-icon bg-white1 margin-right-10">
+						<u-icon  custom-prefix="custom-icon" name="stethoscope" color="#155DFC" bold="true" size="20"></u-icon>
 					</view>
 					<view class="view-text">
 						<view class="view-text1">
@@ -210,28 +210,10 @@
 		opacity: .8;
 	}
 
-	.view-icon {
-		padding: 10px;
-		border-radius: 15px;
-		border: 1px solid #dddd;
-		float: left;
-		background-color: white;
-		margin-right: 10px;
-
-
-	}
 
 
 
-	.icon-wrapper {
-		width: 60px;
-		height: 60px;
-		background-color: #dbf1e1;
-		text-align: center;
-		padding: 20px;
-		border-radius: 100%;
-		margin: 0 auto;
-	}
+
 
 	.view-h1 {
 		font-weight: bold;
@@ -266,24 +248,5 @@
 		right: 0;
 	}
 
-	.bg-relative {
-		padding: 3rem 1.5rem;
-		position: relative;
 
-
-	}
-
-
-
-	.bg-relative .p1 {
-		color: white;
-		font-size: 1.2rem;
-	}
-
-	.bg-relative .p2 {
-		color: white;
-		font-size: .8rem;
-		opacity: .7;
-		margin-top: .5rem;
-	}
 </style>

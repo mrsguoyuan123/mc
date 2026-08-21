@@ -7,7 +7,7 @@
 		</u-tabbar>
 		<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between">
 			<view class="u-flex ">
-				<view class="view-icon bg-orange">
+				<view class="view-icon bg-orange margin-right-5">
 					<u-icon name="order" color="#ff6900" bold="true" size="25"></u-icon>
 				</view>
 				<view class="view-text">
@@ -25,7 +25,7 @@
 			</view>
 
 		</view>
-	
+
 		<view class="radius-15  bg-white card-border card-border-gray ">
 			<view>基本信息</view>
 			<view>
@@ -101,7 +101,7 @@
 			</view>
 
 		</view>
-		<u-button hairline="false" type="error" text="退出当前账号" style="margin: 1rem;"></u-button>
+		<u-button hairline="false" @click="logOut()" type="error" text="退出当前账号" style="margin: 1rem;"></u-button>
 
 	</view>
 </template>
@@ -181,8 +181,20 @@
 				this.$refs.uForm.validateField('userInfo.sex')
 			},
 
-
 			routeTo(res) {
+
+				let data = {
+					title: 'hello',
+					id: 1
+				}
+
+
+				uni.navigateTo({
+					url: `../index/` + res + `?data=` + encodeURIComponent(JSON.stringify(data))
+				})
+
+			},
+			logOut(res) {
 				uni.showLoading()
 				uni.hideLoading()
 
@@ -218,16 +230,6 @@
 	}
 
 
-
-	.icon-wrapper {
-		width: 60px;
-		height: 60px;
-		background-color: #dbf1e1;
-		text-align: center;
-		padding: 20px;
-		border-radius: 100%;
-		margin: 0 auto;
-	}
 
 	.view-h1 {
 		font-weight: bold;
@@ -272,25 +274,10 @@
 		opacity: .8;
 	}
 
-	.view-icon {
-		padding: 10px;
-		border-radius: 15px;
-		// float: left;
-		// background-color: #eff6ff;
-		margin-right: 10px;
-
-	}
 
 
-	.icon-wrapper {
-		width: 60px;
-		height: 60px;
-		background-color: #dbf1e1;
-		text-align: center;
-		padding: 20px;
-		border-radius: 100%;
-		margin: 0 auto;
-	}
+
+
 
 	.view-h1 {
 		font-weight: bold;
@@ -317,27 +304,5 @@
 		top: 0;
 		left: 0;
 		right: 0;
-	}
-
-	.bg-relative {
-		padding: 3rem 1.5rem;
-		position: relative;
-
-
-	}
-
-
-
-
-	.bg-relative .p1 {
-		color: white;
-		font-size: 1.2rem;
-	}
-
-	.bg-relative .p2 {
-		color: white;
-		font-size: .8rem;
-		opacity: .7;
-		margin-top: .5rem;
 	}
 </style>

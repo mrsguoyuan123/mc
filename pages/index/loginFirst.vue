@@ -1,68 +1,101 @@
 <template>
-	<view class="page-content">
-		<u-card :title="title" :sub-title="subTitle" :thumb="thumb" margin="1rem 0"  @click="routeTo">
-			<view class="" slot="body">
-				<view class="u-body-item u-flex  u-col-between u-p-t-0">
-					<view class="u-body-item-title u-line-2">瓶身描绘的牡丹一如你初妆，冉冉檀香透过窗心事我了然，宣纸上走笔至此搁一半</view>
-					<image src="https://img11.360buyimg.com/n7/jfs/t1/94448/29/2734/524808/5dd4cc16E990dfb6b/59c256f85a8c3757.jpg" mode="aspectFill"></image>
-				</view>
-				<view class="u-body-item u-flex u-row-between u-p-b-0">
-					<view class="u-body-item-title u-line-2">釉色渲染仕女图韵味被私藏，而你嫣然的一笑如含苞待放</view>
-					<image src="https://img12.360buyimg.com/n7/jfs/t1/102191/19/9072/330688/5e0af7cfE17698872/c91c00d713bf729a.jpg" mode="aspectFill"></image>
-				</view>
+	<view class="page-content page-loginFirst ">
+	
+		<view class=" card-top  u-flex space-between u-flex-column ">
+			<view class="view-icon badge-blue-bg badge-circle margin-bottom-2">
+				<u-icon name="account" color="#155DFC" bold="true" size="40"></u-icon>
 			</view>
-			<view class="" slot="foot"><u-icon name="chat-fill" size="34" color="" label="30评论"></u-icon></view>
-		</u-card>
-		<u-card :title="title" :sub-title="subTitle" :thumb="thumb" margin="1rem 0"  @click="routeTo">
-			<view class="" slot="body">
-				<view class="u-body-item u-flex  u-col-between u-p-t-0">
-					<view class="u-body-item-title u-line-2">瓶身描绘的牡丹一如你初妆，冉冉檀香透过窗心事我了然，宣纸上走笔至此搁一半</view>
-					<image src="https://img11.360buyimg.com/n7/jfs/t1/94448/29/2734/524808/5dd4cc16E990dfb6b/59c256f85a8c3757.jpg" mode="aspectFill"></image>
+			<view class="">
+
+				<view class="view-text">
+					<view class="font-bold font-xl margin-bottom-1 text-center">
+						首次登录
+					</view>
+					<view class="font-info font-m margin-bottom-2 text-center">
+						由于您是首次登录系统，请先选择您的角色以进入对应的服务空间
+					</view>
 				</view>
-				<view class="u-body-item u-flex u-row-between u-p-b-0">
-					<view class="u-body-item-title u-line-2">釉色渲染仕女图韵味被私藏，而你嫣然的一笑如含苞待放</view>
-					<image src="https://img12.360buyimg.com/n7/jfs/t1/102191/19/9072/330688/5e0af7cfE17698872/c91c00d713bf729a.jpg" mode="aspectFill"></image>
-				</view>
+
 			</view>
-			<view class="" slot="foot"><u-icon name="chat-fill" size="34" color="" label="30评论"></u-icon></view>
-		</u-card>
-		
+			<view  @click="routeTo(item)" :class="item.routeto=='onsite'?'list-outside':'list-home'" v-for="(item,index) in userList"
+				class="card-list radius-15 card-top bg-white card-border card-border-gray">
+				<view class=" massage-list">
+					<view class="massage-icon-left view-icon bg-white1 margin-right-10 " v-if="item.routeto=='home'">
+						<u-icon name="account" color="#16c288" bold="true" size="25"></u-icon>
+					</view>
+					<view class="massage-icon-left view-icon bg-white1 margin-right-10 " v-else-if="item.routeto=='onsite'">
+						<u-icon name="map" color="#155DFC" bold="true" size="25"></u-icon>
+					</view>
+
+					<view class="massage-content">
+						<!-- 内容 -->
+						<view class="view-text">
+							<view class="view-text1 font-l">
+								{{item.name}}
+							</view>
+							<u--text size="12" class="font-info font-xs" :lines="1" :text="item.lastMsg"></u--text>
+						</view>
+
+					</view>
+					<view class="massage-icon-right">
+						<u-icon name="arrow-right" color="#909399" size="16"></u-icon>
+					</view>
+
+				</view>
+
+			</view>
+			<view @click="logOut"  class="font-info margin-top-3">返回登录界面</view>
+		</view>
 	</view>
 </template>
 
 <script>
-export default {
-	data() {
-		return {
-			title: '素胚勾勒出青花，笔锋浓转淡',
-			subTitle: '2020-05-15',
-			thumb: 'http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg',
-		};
-	},
+	export default {
+		data() {
+			return {
+				userList: [{
+						id: "1",
+						name: "我是患者",
+						lastMsg: "查看病历、预约复诊及咨询管家",
+						routeto: "home",
+
+					},
+					{
+						id: "sys-1",
+						name: "我是驻点",
+						lastMsg: "提供陪诊服务、协调院内资源",
+						routeto: "onsite",
+
+					},
+
+				]
+			};
+		},
 		methods: {
-			routeTo() {
+			routeTo(item) {
+				console.log(item)
 				uni.showLoading()
 				uni.hideLoading()
-				
+
 				let data = {
-				    title:'hello',
-				    id: 1
+					title: 'hello',
+					id: 1
 				}
-				
-			
+
+
 				uni.navigateTo({
-					url:`../index/register?data=`+ encodeURIComponent(JSON.stringify(data))
+					url: `../index/`+ item.routeto+`?data=` + encodeURIComponent(JSON.stringify(data))
 				})
-				 // uni.navigateTo({
-				 //        url: 'pages/loginFirst/loginFirst', // 携带参数
-				 //        success: () => {
-				 //          console.log('跳转成功');
-				 //        },
-				 //        fail: (err) => {
-				 //          console.error('跳转失败', err);
-				 //          uni.showToast({ title: '跳转失败，请检查路径', icon: 'none' });
-				 //        }
-				 //      });
+				// uni.navigateTo({
+				//        url: 'pages/loginFirst/loginFirst', // 携带参数
+				//        success: () => {
+				//          console.log('跳转成功');
+				//        },
+				//        fail: (err) => {
+				//          console.error('跳转失败', err);
+				//          uni.showToast({ title: '跳转失败，请检查路径', icon: 'none' });
+				//        }
+				//      });
 				// this.$refs.form.validate().then(res => {
 				// 	uni.hideLoading()
 				// 	console.log('表单数据信息：', res);
@@ -80,30 +113,34 @@ export default {
 				// 	uni.hideLoading()
 				// 	console.log('表单错误信息：', err);
 				// })
+			},
+			logOut(){
+				
 			}
+			
 		},
-		
-	
-};
+
+
+	};
 </script>
 
 <style scoped lang="scss">
-	.u-card-wrap { 
-		background-color: $u-bg-color;
-		padding: 1px;
+	.page-loginFirst .card-list {
+		width: 100%;
+
 	}
-	
-	.u-body-item {
-		font-size: 32rpx;
-		color: #333;
-		padding: 20rpx 10rpx;
+
+	.list-home {
+		box-shadow: none;
+		background-color: #f5fbf8;
+		border-color: #d0fae5;
+
 	}
-		
-	.u-body-item image {
-		width: 120rpx;
-		flex: 0 0 120rpx;
-		height: 120rpx;
-		border-radius: 8rpx;
-		margin-left: 12rpx;
+
+	.list-outside {
+		box-shadow: none;
+		background-color: #f6f9fb;
+		border-color: #dbeafe;
+
 	}
 </style>

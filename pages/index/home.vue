@@ -1,15 +1,17 @@
 <template>
-	<view class="page-content">
+	<view class="page-content page-home	">
 		<u-tabbar :value="activeTab" :placeholder="false" @change="name => activeTab = name" :fixed="true"
 			activeColor="rgb(21, 93, 252)" inactiveColor="#d2d6dd" :safeAreaInsetBottom="false">
-			<u-tabbar-item v-for="item in tabList" :key="item.id" :text="item.name" :icon="item.icon" :badge="item.badge" @click="routeTo(item.route)"></u-tabbar-item>
-			
+			<u-tabbar-item v-for="item in tabList" :key="item.id" :text="item.name" :icon="item.icon"
+				:badge="item.badge" @click="routeTo(item.route)"></u-tabbar-item>
+
 		</u-tabbar>
 
-		<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between"  @click="routeTo('profile')">
+		<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between"
+			@click="routeTo('profile')">
 
 			<view class="u-flex ">
-				<view class="view-icon">
+				<view class="view-icon no-border">
 					<u-icon name="account" color="#155DFC" bold="true" size="20"></u-icon>
 				</view>
 				<view class="view-text">
@@ -29,7 +31,7 @@
 		</view>
 		<view class="button-wrapper">
 			<view class="radius-15 card-top card-bg card-blue">
-				<view class="view-icon">
+				<view class="view-icon bg-blue">
 					<u-icon name="chat" color="white" bold="true" size="20"></u-icon>
 				</view>
 				<view class="text-white">
@@ -58,24 +60,25 @@
 		</view>
 		<view class="header-text">
 			<view class="header-icon ">
+				
 				<u-icon name="account" color="#155DFC" bold="true" size="20"></u-icon>
 				<view class="header-name font-bold">
 					我的私人医生团队
 				</view>
 			</view>
-			
+
 		</view>
 		<view class="my-team bg-white radius-15 card-top card-border card-border-gray">
 
 			<view class="team-icon view-icon">
-				<u-icon name="account" color="white" bold="true" size="3rem"></u-icon>
+				<u-icon custom-prefix="custom-icon" name="stethoscope" color="white" bold="true" size="3rem"></u-icon>
 			</view>
 			<view class="team-content">
 				<view class="font-bold text-center">医生团队</view>
 				<view class="my-badge">
-					<view class="badge-blue">心内科</view>
-					<view class="badge-blue">副主任医师</view>
-					<view class="badge-purple">副主任医师</view>
+					<view class="badge badge-blue margin-right-5">心内科</view>
+					<view class="badge badge-blue margin-right-5">副主任医师</view>
+					<view class="badge badge-purple">副主任医师</view>
 				</view>
 				<view class=" text-center font-info font-xs">温州医科大学附属第一医院</view>
 				<view class="radius-15 bg-gray gray-content">
@@ -103,7 +106,7 @@
 				<view>
 					<view class="chart-title">
 						<view class="header-icon ">
-							<u-icon name="account" color="#155DFC" bold="true" size="20"></u-icon>
+							<u-icon name="activity"  custom-prefix="custom-icon" color="#155DFC" bold="true" size="20"></u-icon>
 							<view class="header-name font-bold">
 								血压点位
 							</view>
@@ -130,7 +133,7 @@
 				<view>
 					<view class="chart-title">
 						<view class="header-icon ">
-							<u-icon name="account" color="#155DFC" bold="true" size="20"></u-icon>
+							<u-icon name="activity"  custom-prefix="custom-icon" color="#00c950" bold="true" size="20"></u-icon>
 							<view class="header-name font-bold">
 								血糖体征
 							</view>
@@ -151,14 +154,13 @@
 			<view class=" bg-pink radius-15    ">
 				<view class="chart-title">
 					<view class="header-icon ">
-						<u-icon name="account" color="#155DFC" bold="true" size="20"></u-icon>
+						<u-icon name="trending-down" custom-prefix="custom-icon"  color="#f6339a" bold="true" size="20"></u-icon>
 						<view class="header-name font-bold">
 							体重运动趋势
 						</view>
 					</view>
 				</view>
 				<view class="u-flex space-between align-center">
-					<view class="font-info font-xs">收缩压</view>
 					<u-line-progress :percentage="60" height="8" activeColor="#f6339a"
 						:showText="false"></u-line-progress>
 					<view class="font-bold font-pink font-s" style="margin-left: 10px;">
@@ -169,22 +171,22 @@
 			<view class=" bg-yellow radius-15    ">
 				<view class="chart-title">
 					<view class="header-icon ">
-						<u-icon name="account" color="#155DFC" bold="true" size="20"></u-icon>
+						<u-icon name="file-text" color="#e7c174" bold="true" size="20"></u-icon>
 						<view class="header-name font-bold">
 							今日服用
 						</view>
 					</view>
 				</view>
 				<view class="my-badge">
-					<view class="badge-blue">本品+钙剂</view>
-					<view class="badge-blue">钙片促吸收</view>
-					<view class="badge-blue">降压药</view>
+					<view class="badge badge-blue bg-blue">本品+钙剂</view>
+					<view class="badge badge-blue bg-blue">钙片促吸收</view>
+					<view class="badge badge-blue bg-blue">降压药</view>
 				</view>
 			</view>
 		</view>
 		<view class="header-text">
 			<view class="header-icon ">
-				<u-icon name="account" color="#155DFC" bold="true" size="20"></u-icon>
+				<u-icon name="user-check"  custom-prefix="custom-icon"  color="#155DFC" bold="true" size="20"></u-icon>
 				<view class="header-name font-bold">
 					健康护照师申请
 				</view>
@@ -194,8 +196,8 @@
 			</view>
 		</view>
 		<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between">
-			<view class="view-icon">
-				<u-icon name="account" color="#155DFC" bold="true" size="20"></u-icon>
+			<view class="view-icon bg-blue-dark">
+				<u-icon name="shield"    custom-prefix="custom-icon" color="white" bold="true" size="30"></u-icon>
 			</view>
 			<view>
 
@@ -227,23 +229,24 @@
 				为您精选
 			</view>
 		</view>
-		<view  v-for="item in articles" :key="item.id"  class="my-article bg-white radius-15  card-border card-border-gray">
-			<view class="u-flex space-between align-center" >
+		<view v-for="item in articles" :key="item.id"
+			class="my-article bg-white radius-15  card-border card-border-gray">
+			<view class="u-flex space-between align-center">
 				<view class="img-wrapper">
 					<img :src="item.image" :alt="item.desc" style="width:100%">
 				</view>
 				<view>
 					<view class="badge-bg badge-pink-bg">
-					{{item.dept}}
-						
+						{{item.dept}}
+
 					</view>
 					<view class="font-bold font-s" style="margin: 10px auto;">{{item.title}}</view>
-					<view class= "font-info font-xs">{{item.desc}}</view>
-				</view>	
-				
-		
+					<view class="font-info font-xs">{{item.desc}}</view>
+				</view>
+
+
 			</view>
-		
+
 		</view>
 	</view>
 
@@ -255,41 +258,74 @@
 		data() {
 			return {
 				activeTab: 0,
-				tabList:[
+				tabList: [{
+					id: 1,
+					name: "首页",
+					icon: "home",
+					badge: "",
+					route: "home"
+				}, {
+					id: 2,
+					name: "健康",
+					icon: "heart",
+					badge: "",
+					route: "healthCenter"
+				}, {
+					id: 3,
+					name: "消息",
+					icon: "chat",
+					badge: "3",
+					route: "messages"
+				}, {
+					id: 4,
+					name: "我的",
+					icon: "account",
+					badge: "",
+					route: "profile"
+				}],
+				articles: [{
+						id: "h1",
+						dept: "支架手术",
+						title: "支架手术术后常见护理方案",
+						desc: "术后48小时是关键期，注意用药与活动量控制...",
+						image: "https://images.unsplash.com/photo-1576091160550-2173dad999ef?w=400&q=80"
+					},
 					{
-						id:1,
-						name:"首页",
-						icon:"home",
-						badge:"",
-						route:"home"
-					},{
-						id:2,
-						name:"健康",
-						icon:"heart",
-						badge:"",
-						route:"healthCenter"
-					},{
-						id:3,
-						name:"消息",
-						icon:"chat",
-						badge:"3",
-						route:"messages"
-					},{
-						id:4,
-						name:"我的",
-						icon:"account",
-						badge:"",
-						route:"profile"
-					}
-				],
-				articles:[
-					 { id: "h1", dept: "支架手术", title: "支架手术术后常见护理方案", desc: "术后48小时是关键期，注意用药与活动量控制...", image: "https://images.unsplash.com/photo-1576091160550-2173dad999ef?w=400&q=80" },
-					  { id: "h2", dept: "支架手术", title: "支架术后饮食指南：如何保护血管", desc: "低盐低脂饮食，规律作息，避免剧烈运动...", image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80" },
-					  { id: "h3", dept: "骨科", title: "骨折术后康复锻炼：从被动到主动", desc: "阶梯式功能练习有助于关节活动度的恢复...", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80" },
-					  { id: "h4", dept: "骨科", title: "关节置换术后：如何居家安全活动", desc: "环境布置、助行器使用及跌倒预防全攻略...", image: "https://images.unsplash.com/photo-1598184273446-94410290f6e7?w=400&q=80" },
-					  { id: "h5", dept: "心外科", title: "支架术后生活指南", desc: "戒烟限酒、规律用药是心脏支架术后长久的关键...", image: "https://images.unsplash.com/photo-1505751172107-573225ad4b73?w=400&q=80" },
-					  { id: "h6", dept: "妇产科", title: "产后康复：骨盆修复与腹直肌调理", desc: "科学月子期护理，帮助身体机能快速回弹...", image: "https://images.unsplash.com/photo-1518331647614-7a1f04cd34cf?w=400&q=80" },
-					
+						id: "h2",
+						dept: "支架手术",
+						title: "支架术后饮食指南：如何保护血管",
+						desc: "低盐低脂饮食，规律作息，避免剧烈运动...",
+						image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80"
+					},
+					{
+						id: "h3",
+						dept: "骨科",
+						title: "骨折术后康复锻炼：从被动到主动",
+						desc: "阶梯式功能练习有助于关节活动度的恢复...",
+						image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"
+					},
+					{
+						id: "h4",
+						dept: "骨科",
+						title: "关节置换术后：如何居家安全活动",
+						desc: "环境布置、助行器使用及跌倒预防全攻略...",
+						image: "https://images.unsplash.com/photo-1598184273446-94410290f6e7?w=400&q=80"
+					},
+					{
+						id: "h5",
+						dept: "心外科",
+						title: "支架术后生活指南",
+						desc: "戒烟限酒、规律用药是心脏支架术后长久的关键...",
+						image: "https://images.unsplash.com/photo-1505751172107-573225ad4b73?w=400&q=80"
+					},
+					{
+						id: "h6",
+						dept: "妇产科",
+						title: "产后康复：骨盆修复与腹直肌调理",
+						desc: "科学月子期护理，帮助身体机能快速回弹...",
+						image: "https://images.unsplash.com/photo-1518331647614-7a1f04cd34cf?w=400&q=80"
+					},
+
 				]
 
 			};
@@ -306,9 +342,9 @@
 
 
 				uni.navigateTo({
-					url: `../index/` +res +`?data=` + encodeURIComponent(JSON.stringify(data))
+					url: `../index/` + res + `?data=` + encodeURIComponent(JSON.stringify(data))
 				})
-				
+
 			}
 		},
 
@@ -317,29 +353,39 @@
 </script>
 
 <style scoped lang="scss">
-		.img-wrapper {
-			overflow: hidden;
-			width: 100px;
-			height: 100px;
-			border-radius: 1rem;
-			margin-right: 10px;
-		}
-	.img-wrapper img{
+	.page-home .view-icon {
+		padding: 10px;
+		border-radius: 15px;
+		float: left;
+
+
+	}
+
+	.img-wrapper {
+		overflow: hidden;
+		width: 100px;
+		height: 100px;
+		border-radius: 1rem;
+		margin-right: 10px;
+	}
+
+	.img-wrapper img {
 		object-fit: cover;
 		width: 100%;
 		height: 100%;
 		max-height: 100%;
 		// border-radius: 1
-		
+
 	}
+
 	.bg-chart .font-info {
 		margin: 6px auto;
 	}
-.my-article{
-	padding: 1rem;
-	margin:1rem auto
-	// border: 1px solid red;
-}
+
+	.my-article {
+		padding: 1rem;
+		margin: 1rem auto // border: 1px solid red;
+	}
 
 
 	.bg-chart .bg-pink,
@@ -381,30 +427,13 @@
 
 	.my-badge {
 		display: flex;
-		justify-content: center;
+		justify-content: start;
 		flex-wrap: nowrap;
 		align-items: center;
 		margin: 10px 0;
 	}
 
-	.my-badge .badge-blue {
-		font-size: 0.3rem;
-		margin-right: 10px;
-		padding: 5px 10px;
-		border: 1px solid #447dfd;
-		border-radius: 10px;
-		color: #447dfd;
-		font-weight: bold;
-	}
 
-	.my-badge .badge-purple {
-		font-size: 0.3rem;
-		font-weight: bold;
-		padding: 5px 10px;
-		background-color: #faf5ff;
-		border-radius: 10px;
-		color: #b110fa;
-	}
 
 	.team-content {
 		margin-top: 2rem;
@@ -428,7 +457,7 @@
 
 
 
-	
+
 	.card-green .view-icon {
 		background-color: #33b865;
 	}
@@ -480,27 +509,11 @@
 		opacity: .8;
 	}
 
-	.view-icon {
-		padding: 10px;
-		border-radius: 15px;
-		float: left;
-		background-color: #eff6ff;
-		margin-right: 10px;
-
-	}
-
-	
 
 
-	.icon-wrapper {
-		width: 60px;
-		height: 60px;
-		background-color: #dbf1e1;
-		text-align: center;
-		padding: 20px;
-		border-radius: 100%;
-		margin: 0 auto;
-	}
+
+
+
 
 	.view-h1 {
 		font-weight: bold;

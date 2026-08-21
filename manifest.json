@@ -65,5 +65,23 @@
     "mp-toutiao" : {
         "usingComponents" : true
     },
-    "vueVersion" : "3"
+    "vueVersion" : "3",
+    "h5" : {
+        "sdkConfigs" : {
+            "maps" : {
+                "amap" : {
+                    "key" : "e205ec9278f20ba483a3d7b01ebddd43",
+                    "securityJsCode" : "d868a155e84a1d8acc4f76dc13c7bcf3",
+                    "serviceHost" : ""
+                }
+            }
+        }
+    },
+    "app-harmony" : {
+        "distribute" : {
+            "modules" : {
+                "uni-verify" : {}
+            }
+        }
+    }
 }
