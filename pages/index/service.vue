@@ -1,93 +1,123 @@
 <template>
-	<view class="page-content">
-		<!--患者信息卡片-->
-		<view class="list-wrap list-wrap-purole">
-			<view class="patient-card">
-				<!-- 头部行：头像 + 姓名年龄时间 + 查看详情 -->
-				<view class="card-header">
-					<view class="card-avatar avatar">
-						<u-icon name="account" color="#9c27b0" size="60rpx"></u-icon>
-					</view>
-					<view class="header-info">
-						<view class="row-name">
-							<text class="name">{{user.name}}</text>
-							<text class="age">{{user.age}}岁</text>
-						</view>
-						<view class="row-time">
-							<u-icon name="clock" color="#9c27b0" size="32rpx"></u-icon>
-							<text class="time-text">{{user.time}}</text>
-						</view>
-					</view>
-				</view>
+	<view class="container">
+		<!--顶部提交成功提示-->
+		<view v-if="showSubmitTip" class="tip-box">
+			<u-icon name="checkmark-circle" color="#27ae60" size="36rpx"></u-icon>
+			<text class="tip-text">陪诊记录已提交</text>
+			<view class="close-tip" @click="showSubmitTip=false">✕</view>
+		</view>
 
-				<view class="bottom-item">
-					<u-icon name="phone" color="#666" size="32rpx"></u-icon>
-					<text class="bottom-text">{{user.phone}}</text>
+		<!--患者信息卡片-->
+		<view class="patient-card">
+			<view class="card-header">
+				<view class="avatar">
+					<u-icon name="account" color="#9c27b0" size="60rpx"></u-icon>
 				</view>
-				<view class="bottom-item">
-					<u-icon name="map" size="32rpx" color="#666"></u-icon>
-					<text class="bottom-text">杭州市第一人民医院</text>
-					<view class="nav-btn" @click="goNav">
-						<text class="custom-icon custom-icon-navigation icon-bold"
-							style="font-size:28rpx;color:#9810fa;"></text>
-						<text class=" font-m">导航</text>
+				<view class="header-info">
+					<view class="row-name">
+						<text class="name">{{user.name}}</text>
+						<text class="age">{{user.age}}岁</text>
 					</view>
+					<view class="row-status">
+						<text class="status-text">{{user.status}}</text>
+					</view>
+				</view>
+			</view>
+			<view class="info-item">
+				<u-icon name="phone" color="#9333ea" size="32rpx"></u-icon>
+				<text class="info-val">{{user.phone}}</text>
+			</view>
+			<view class="info-item addr-row">
+				<view class="addr-left">
+					<u-icon name="map" size="32rpx" color="#666"></u-icon>
+					<text class="info-val">{{user.hospital}}</text>
+				</view>
+				<view class="nav-btn" @click="handleNav">
+					<u-icon name="navigation" size="30rpx" color="#9333ea"></u-icon>
+					<text>导航</text>
 				</view>
 			</view>
 		</view>
 
-		<!--陪诊任务卡片 时间线-->
+		<!--陪诊任务卡片-->
 		<view class="task-card">
 			<view class="card-title">陪诊任务</view>
-			<view class="timeline-wrap">
-				<!--任务1 进行中-->
+			<view class="timeline">
+				<!--任务1：到院签到-->
 				<view class="timeline-item">
-					<view class="dot active"></view>
-					<view class="timeline-content">
-						<view class="task-title">任务 1: 到院签到</view>
-						<view class="btn-group">
-							<button class="purple-btn" @click="locationCheck">
-								<u-icon name="map" size="32rpx" color="#fff"></u-icon>
-								<text>定位打卡</text>
-							</button>
-							<button class="purple-btn" @click="photoCheck">
-								<u-icon name="camera" size="32rpx" color="#fff"></u-icon>
-								<text>拍照打卡</text>
-							</button>
+					<view class="dot" :class="getDotClass(1)"></view>
+					<view class="timeline-body">
+						<view class="task-title" :class="getTitleClass(1)">任务 1: 到院签到</view>
+						<view v-if="task1AllDone" class="done-row">
+							<u-icon name="checkmark-circle" color="#27ae60" size="34rpx"></u-icon>
+							<text class="done-text">已完成</text>
+						</view>
+						<view v-if="currentTask === 1 && !task1AllDone" class="btn-group">
+							<button class="action-btn" @click="doLocationCheck">定位打卡</button>
+							<button class="action-btn" @click="doPhotoCheck">拍照打卡</button>
+							<button v-if="task1AllDone" class="next-btn" @click="goTask2">下一步</button>
 						</view>
 					</view>
 				</view>
-				<!--任务2 未开始-->
+
+				<!--任务2：诊疗进展记录-->
 				<view class="timeline-item">
-					<view class="dot"></view>
-					<view class="timeline-content">
-						<view class="task-title gray">任务 2: 诊疗进展记录</view>
+					<view class="dot" :class="getDotClass(2)"></view>
+					<view class="timeline-body">
+						<view class="task-title" :class="getTitleClass(2)">任务 2: 诊疗进展记录</view>
+						<view v-if="task2Done" class="done-row">
+							<u-icon name="checkmark-circle" color="#27ae60" size="34rpx"></u-icon>
+							<text class="done-text">已完成</text>
+						</view>
+						<view v-if="currentTask===2 && !task2Done" class="task-form">
+							<view class="form-label">当前进展描述</view>
+							<textarea class="textarea" v-model="progressDesc" placeholder=""></textarea>
+							<view class="form-label">异常反馈</view>
+							<picker :value="abnormalIdx" :range="abnormalList" @change="onAbnormalChange">
+								<view class="picker-box">{{abnormalList[abnormalIdx]}}</view>
+							</picker>
+							<button class="next-btn" @click="submitTask2">下一步</button>
+						</view>
 					</view>
 				</view>
-				<!--任务3 未开始-->
+
+				<!--任务3：最终陪诊反馈-->
 				<view class="timeline-item">
-					<view class="dot"></view>
-					<view class="timeline-content">
-						<view class="task-title gray">任务 3: 最终陪诊反馈</view>
+					<view class="dot" :class="getDotClass(3)"></view>
+					<view class="timeline-body">
+						<view class="task-title" :class="getTitleClass(3)">任务 3: 最终陪诊反馈</view>
+						<view v-if="task3Done" class="done-row">
+							<u-icon name="checkmark-circle" color="#27ae60" size="34rpx"></u-icon>
+							<text class="done-text">已完成</text>
+						</view>
+						<view v-if="currentTask===3 && !task3Done" class="task-form">
+							<view class="form-label">陪诊总结</view>
+							<textarea class="textarea" v-model="summaryText" placeholder="请对本次陪诊服务进行总结..."></textarea>
+							<view class="form-label">服务是否达成</view>
+							<view class="radio-group">
+								<view class="radio-item" :class="{active:serviceResult===1}" @click="serviceResult=1">
+									已达成</view>
+								<view class="radio-item" :class="{active:serviceResult===0}" @click="serviceResult=0">
+									未达成</view>
+							</view>
+							<button class="submit-btn" @click="submitAllRecord">提交陪诊记录</button>
+						</view>
 					</view>
 				</view>
 			</view>
 		</view>
 
-		<view class="spacer"></view>
-
-		<!--底部tabbar-->
 		<view class="tab-bar">
-			<view class="tab-item" @click="switchTab(0)">
-				<u-icon name="home" size="44rpx" color="#999"></u-icon>
+			<view class="tab-item">
+				<u-icon name="home" size="44rpx"></u-icon>
 				<text>首页</text>
 			</view>
-			<view class="tab-item active" @click="switchTab(1)">
-				<u-icon name="bag" size="44rpx" color="#9333ea"></u-icon>
+			<view class="tab-item tab-active">
+				<u-icon name="bag" size="44rpx"></u-icon>
 				<text>服务中</text>
 			</view>
-			<view class="tab-item" @click="switchTab(2)">
-				<u-icon name="account" size="44rpx" color="#999"></u-icon>
+			<view class="tab-item">
+				<u-icon name="person" size="44rpx"></u-icon>
 				<text>我的</text>
 			</view>
 		</view>
@@ -98,6 +128,7 @@
 	export default {
 		data() {
 			return {
+				showSubmitTip: false,
 				user: {
 					name: "孙患者",
 					age: 45,
@@ -105,103 +136,157 @@
 					phone: "138****5678",
 					hospital: "杭州市第一人民医院"
 				},
+				locDone: false,
+				photoDone: false,
+				currentTask: 2,
+				task2Done: false,
+				progressDesc: "ff",
+				abnormalIdx: 1,
+				abnormalList: ["无异常", "排队过久", "检查排队", "医生临时停诊", "其他"],
+				task3Done: false,
+				summaryText: "",
+				serviceResult: 1
+			}
+		},
+		computed: {
+			task1AllDone() {
+				return this.locDone && this.photoDone
 			}
 		},
 		methods: {
-			goNav() {
+			//获取圆点样式
+			getDotClass(taskNo) {
+				if (taskNo === 1 && this.task1AllDone) return "dot-finish";
+				if (taskNo === 2 && this.task2Done) return "dot-finish";
+				if (taskNo === 3 && this.task3Done) return "dot-finish";
+
+				if (this.currentTask === taskNo) return "dot-active";
+				return "dot-wait";
+			},
+			getTitleClass(taskNo) {
+				if (taskNo === 1 && this.task1AllDone) return "text-gray";
+				if (taskNo === 2 && this.task2Done) return "text-gray";
+				if (taskNo === 3 && this.task3Done) return "text-gray";
+				if (this.currentTask > taskNo) return "text-gray";
+				return "";
+			},
+			doLocationCheck() {
+				this.locDone = true
+			},
+			doPhotoCheck() {
+				this.photoDone = true
+			},
+			goTask2() {
+				this.currentTask = 2
+			},
+			onAbnormalChange(e) {
+				this.abnormalIdx = Number(e.target.value)
+			},
+			submitTask2() {
+				if (!this.progressDesc.trim()) {
+					uni.showToast({
+						title: "请填写就诊进展",
+						icon: "none"
+					})
+					return
+				}
+				this.task2Done = true
+				this.currentTask = 3
+			},
+			submitAllRecord() {
+				if (!this.summaryText.trim()) {
+					uni.showToast({
+						title: "请填写陪诊总结",
+						icon: "none"
+					})
+					return
+				}
+				this.task3Done = true
+				this.showSubmitTip = true
+				setTimeout(() => {
+					this.showSubmitTip = false
+				}, 3000)
+			},
+			handleNav() {
 				uni.showToast({
-					title: "打开导航",
+					title: "跳转导航",
 					icon: "none"
 				})
-			},
-			locationCheck() {
-				uni.chooseLocation({
-					success: (res) => {
-						console.log('选点结果', res)
-						// res.name 地址名称
-						// res.address 完整地址
-						// res.latitude 纬度
-						// res.longitude 经度
-						// 这里做打卡提交，传给后端
-						uni.showModal({
-							title: "定位打卡成功",
-							content: `地址：${res.name}\n经纬度：${res.latitude},${res.longitude}`,
-							showCancel: false
-						})
-					},
-					fail: (err) => {
-						console.error(err)
-						if (err.errMsg.includes("auth")) {
-							uni.showModal({
-								title: "需要位置权限",
-								content: "请开启位置权限才能定位打卡",
-								confirmText: "去设置",
-								success: (res) => {
-									if (res.confirm) {
-										uni.openSetting()
-									}
-								}
-							})
-						} else {
-							uni.showToast({
-								title: "打开地图失败",
-								icon: "none"
-							})
-						}
-					}
-				})
-			},
-			photoCheck() {
-				uni.chooseMedia({
-					count: 1,
-					mediaType: ['image'],
-					sourceType: ['camera'], //仅相机拍照
-					success: (res) => {
-						const tempPath = res.tempFiles[0].tempFilePath
-						console.log("拍照路径", tempPath)
-						// 此处上传图片到后端
-						uni.showToast({
-							title: "拍照打卡成功",
-							icon: "success"
-						})
-					}
-				})
-			},
-
-			switchTab(index) {
-				// tab跳转逻辑，这里只做演示
-				console.log('切换tab', index)
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	.avatar {
-		width: 100rpx;
-		height: 100rpx;
-		flex-shrink: 0;
+	page {
+		background: #f4f6fa;
+	}
+
+	.container {
+		padding: 30rpx;
+	}
+
+	.tip-box {
+		display: flex;
+		align-items: center;
+		background: #e8f9ee;
+		padding: 24rpx 30rpx;
+		border-radius: 16rpx;
+		margin-bottom: 24rpx;
+		border: 1rpx solid #b2e8c4;
+	}
+
+	.tip-text {
+		font-size: 30rpx;
+		color: #208943;
+		margin-left: 12rpx;
+		flex: 1;
+	}
+
+	.close-tip {
+		font-size: 32rpx;
+		color: #666;
+		padding: 0 10rpx;
+	}
+
+	.patient-card {
+		background: #fff;
 		border-radius: 24rpx;
-		background: #f8f0fc;
+		padding: 40rpx;
+		margin-bottom: 30rpx;
+	}
+
+	.card-header {
+		display: flex;
+		align-items: center;
+		margin-bottom: 30rpx;
+	}
+
+	.avatar {
+		width: 110rpx;
+		height: 110rpx;
+		background: #f3e8fc;
+		border-radius: 20rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		margin-right: 24rpx;
 	}
 
-	.info-title {
+	.row-name {
 		display: flex;
-		flex-direction: column;
+		align-items: center;
 	}
 
 	.name {
-		font-size: 40rpx;
+		font-size: 36rpx;
 		font-weight: bold;
 		color: #111;
 	}
 
 	.age {
 		font-size: 32rpx;
-		color: #666;
+		color: #444;
 		margin-left: 12rpx;
 	}
 
@@ -211,28 +296,25 @@
 		margin-top: 8rpx;
 	}
 
-	.phone-row {
+	.info-item {
 		display: flex;
 		align-items: center;
-		margin-bottom: 16rpx;
+		margin: 20rpx 0;
+		font-size: 32rpx;
 	}
 
-	.phone {
-		font-size: 34rpx;
-		color: #9333ea;
-		margin-left: 12rpx;
+	.info-val {
+		margin-left: 14rpx;
+		color: #333;
 	}
 
 	.addr-row {
-		display: flex;
-		align-items: center;
 		justify-content: space-between;
 	}
 
-	.addr {
-		font-size: 32rpx;
-		color: #333;
-		margin-left: 12rpx;
+	.addr-left {
+		display: flex;
+		align-items: center;
 	}
 
 	.nav-btn {
@@ -240,90 +322,168 @@
 		align-items: center;
 		color: #9333ea;
 		font-size: 30rpx;
+		gap: 8rpx;
 	}
 
 	.task-card {
 		background: #fff;
 		border-radius: 24rpx;
-		padding: 36rpx;
-		box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+		padding: 40rpx;
 	}
 
 	.card-title {
-		font-size: 36rpx;
+		font-size: 38rpx;
 		font-weight: bold;
-		margin-bottom: 32rpx;
-	}
-
-	.timeline-wrap {
-		position: relative;
-	}
-
-	.timeline-wrap::before {
-		content: "";
-		position: absolute;
-		left: 12rpx;
-		top: 0;
-		bottom: 0;
-		width: 2rpx;
-		background: #ddd;
+		color: #111;
+		margin-bottom: 40rpx;
 	}
 
 	.timeline-item {
 		display: flex;
-		margin-bottom: 40rpx;
+		margin-bottom: 48rpx;
 		position: relative;
 	}
 
 	.dot {
-		width: 24rpx;
-		height: 24rpx;
+		width: 36rpx;
+		height: 36rpx;
 		border-radius: 50%;
-		background: #ddd;
 		flex-shrink: 0;
-		margin-right: 24rpx;
-		z-index: 2;
+		margin-right: 26rpx;
+		margin-top: 6rpx;
 	}
 
-	.dot.active {
+	.dot-finish {
+		background: #27ae60;
+	}
+
+	.dot-active {
 		background: #9333ea;
 	}
 
-	.timeline-content {
+	.dot-wait {
+		background: #ffffff;
+		border: 2rpx #cccccc solid;
+	}
+
+	/*未开始：空心灰色圆圈*/
+
+	.timeline-item:not(:last-child)::before {
+		content: "";
+		position: absolute;
+		left: 17rpx;
+		top: 42rpx;
+		width: 2rpx;
+		height: calc(100% + 12rpx);
+		background: #ddd;
+	}
+
+	.timeline-body {
 		flex: 1;
 	}
 
 	.task-title {
 		font-size: 34rpx;
-		font-weight: bold;
-		margin-bottom: 24rpx;
+		font-weight: 600;
+		color: #111;
+		margin-bottom: 16rpx;
 	}
 
-	.task-title.gray {
+	.text-gray {
 		color: #999;
+	}
+
+	.done-row {
+		display: flex;
+		align-items: center;
+	}
+
+	.done-text {
+		color: #27ae60;
+		font-size: 30rpx;
+		margin-left: 10rpx;
 	}
 
 	.btn-group {
 		display: flex;
-		flex-direction: column;
-		gap: 24rpx;
+		gap: 20rpx;
+		flex-wrap: wrap;
 	}
 
-	.purple-btn {
+	.action-btn {
 		background: #9333ea;
 		color: #fff;
-		border-radius: 99rpx;
-		height: 96rpx;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 32rpx;
+		border-radius: 16rpx;
+		padding: 16rpx 32rpx;
+		font-size: 30rpx;
 		border: none;
-		margin: 0;
 	}
 
-	.spacer {
-		height: 80rpx;
+	.next-btn {
+		width: 100%;
+		background: #9333ea;
+		color: #fff;
+		border-radius: 20rpx;
+		padding: 22rpx 0;
+		font-size: 34rpx;
+		margin-top: 20rpx;
+		border: none;
+	}
+
+	.form-label {
+		font-size: 30rpx;
+		color: #333;
+		margin: 24rpx 0 12rpx;
+	}
+
+	.textarea {
+		width: 100%;
+		min-height: 160rpx;
+		background: #f7f8fa;
+		border-radius: 20rpx;
+		padding: 24rpx;
+		font-size: 30rpx;
+		box-sizing: border-box;
+	}
+
+	.picker-box {
+		background: #f7f8fa;
+		border-radius: 20rpx;
+		padding: 24rpx;
+		font-size: 30rpx;
+		border: 2rpx solid #9333ea;
+	}
+
+	.radio-group {
+		display: flex;
+		gap: 24rpx;
+		margin: 20rpx 0;
+	}
+
+	.radio-item {
+		flex: 1;
+		text-align: center;
+		padding: 24rpx 0;
+		border: 2rpx solid #ddd;
+		border-radius: 20rpx;
+		font-size: 32rpx;
+	}
+
+	.radio-item.active {
+		background: #27ae60;
+		color: #fff;
+		border-color: #27ae60;
+	}
+
+	.submit-btn {
+		width: 100%;
+		background: #27ae60;
+		color: #fff;
+		border-radius: 20rpx;
+		padding: 22rpx 0;
+		font-size: 34rpx;
+		border: none;
+		margin-top: 20rpx;
 	}
 
 	.tab-bar {
@@ -331,218 +491,20 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		height: 120rpx;
 		background: #fff;
 		display: flex;
-		box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+		padding: 16rpx 0;
+		border-top: 1rpx #eee solid;
 	}
 
 	.tab-item {
 		flex: 1;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
+		text-align: center;
 		font-size: 24rpx;
 		color: #999;
 	}
 
-	.tab-item.active {
+	.tab-active {
 		color: #9333ea;
-	}
-
-
-	.page-onsite .u-grid {
-		border-radius: 10rpx;
-		overflow: hidden;
-		position: relative;
-		display: grid;
-		gap: 15rpx;
-		grid-template-columns: repeat(3, 1fr);
-	}
-
-	.page-onsite .u-grid>view {
-		padding: 30rpx;
-		background: white;
-		/* border: 1px solid red; */
-	}
-
-	.page-onsite .view-icon {
-		background: #af4afd;
-		border-radius: 20rpx;
-		margin-right: 10rpx;
-	}
-
-	.my-subsection {
-		display: flex;
-		background: white;
-		border-radius: 16rpx;
-		padding: 6rpx;
-	}
-
-	.sub-item {
-		flex: 1;
-		text-align: center;
-		height: 64rpx;
-		line-height: 64rpx;
-		border-radius: 12rpx;
-		font-size: 28rpx;
-		color: #333;
-	}
-
-	.sub-item.active {
-		color: #ffffff;
-		/* box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08); */
-	}
-
-	.list-wrap {
-		margin-top: 30rpx;
-	}
-
-	.patient-card {
-		background: #fff;
-		border-radius: 32rpx;
-		border: 2rpx solid #e9e4f8;
-		padding: 32rpx;
-		margin-bottom: 24rpx;
-	}
-
-	/* 头部flex：头像｜姓名时间｜查看详情 */
-	.card-header {
-		display: flex;
-		gap: 24rpx;
-		align-items: flex-start;
-		margin-bottom: 32rpx;
-	}
-
-
-	.header-info {
-		flex: 1;
-	}
-
-	.row-name {
-		display: flex;
-		align-items: baseline;
-		gap: 16rpx;
-		margin-bottom: 16rpx;
-	}
-
-	.name {
-		font-size: 40rpx;
-		font-weight: bold;
-		color: #111;
-	}
-
-	.age {
-		font-size: 30rpx;
-		color: #888;
-	}
-
-	.row-time {
-		display: flex;
-		align-items: center;
-		gap: 12rpx;
-	}
-
-	.time-text {
-		font-size: 2rpx;
-		/* color: #9810fa; */
-	}
-
-	.card-right {
-		flex-shrink: 0;
-	}
-
-	.detail-text {
-		font-size: 30rpx;
-		color: #9810fa;
-		font-weight: bold;
-	}
-
-	/* ---------------- */
-	.bottom-item {
-		display: flex;
-		align-items: center;
-		gap: 16rpx;
-		margin-bottom: 24rpx;
-		/* 左边距离 = 头像宽度 + gap(24rpx) */
-		margin-left: 0rpx;
-	}
-
-	.bottom-text {
-		font-size: 30rpx;
-		color: #444;
-	}
-
-	.info-card {
-		background: #ffffff;
-		border-radius: 32rpx;
-		padding: 40rpx 36rpx;
-		margin-bottom: 30rpx;
-		box-shadow: 0 2rpx 14rpx rgba(0, 0, 0, 0.06);
-	}
-
-	.info-header {
-		display: flex;
-		align-items: flex-start;
-		margin-bottom: 32rpx;
-	}
-
-	.info-title {
-		padding-top: 8rpx;
-	}
-
-	.name-row {
-		display: flex;
-		align-items: center;
-	}
-
-	.name {
-		font-size: 48rpx;
-		font-weight: bold;
-		color: #111111;
-	}
-
-	.age {
-		font-size: 40rpx;
-		color: #888;
-		margin-left: 16rpx;
-	}
-
-	.status-text {
-		font-size: 32rpx;
-		color: #999;
-		margin-top: 10rpx;
-	}
-
-	.phone-row {
-		display: flex;
-		align-items: center;
-		margin-bottom: 24rpx;
-	}
-
-	.phone {
-		font-size: 40rpx;
-		color: #9333ea;
-		margin-left: 14rpx;
-	}
-
-	.addr-row {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	.addr {
-		font-size: 40rpx;
-		color: #333;
-		margin-left: 14rpx;
-	}
-
-	.nav-btn {
-		display: flex;
-		align-items: center;
-		color: #9333ea;
-		font-size: 36rpx;
 	}
 </style>

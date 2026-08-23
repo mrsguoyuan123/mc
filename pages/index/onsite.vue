@@ -47,9 +47,10 @@
 				{{item.label}}
 			</view>
 		</view>
+		<!-- 已服务 -->
 		<view class="list-wrap list-wrap-green" v-if="currentIndex == 0">
 			<view v-for="(item,idx) in userList" :key="idx" class="patient-card">
-				<view class="card-header">
+				<view class="card-header" style="margin-bottom: 0;">
 					<view class="card-avatar">
 						<u-icon name="account" color="#00c950" size="60rpx"></u-icon>
 					</view>
@@ -59,8 +60,8 @@
 							<text class="age">{{item.age}}岁</text>
 						</view>
 						<view class="row-time">
-							<u-icon name="clock" color="#909399" size="32rpx"></u-icon>
-							<text class="time-text font-info font-s">{{item.lastServiceTime}}</text>
+							<u-icon name="clock" color="#00c950" size="32rpx"></u-icon>
+							<text class="time-text font-info ">{{item.lastServiceTime}}</text>
 						</view>
 					</view>
 					<view class="card-right">
@@ -71,6 +72,7 @@
 
 			</view>
 		</view>
+		<!-- 待服务-->
 		<view class="list-wrap list-wrap-purole" v-else-if="currentIndex == 1">
 			<view v-for="(item,idx) in patientList" :key="idx" class="patient-card">
 				<!-- 头部行：头像 + 姓名年龄时间 + 查看详情 -->
@@ -97,12 +99,13 @@
 					<u-icon name="phone" color="#666" size="32rpx"></u-icon>
 					<text class="bottom-text">{{item.phone}}</text>
 				</view>
-				<view class="bottom-item">
+				<view class="bottom-item" style="margin-bottom: 0;">
 					<u-icon name="map" color="#666" size="32rpx"></u-icon>
 					<text class="bottom-text">{{item.hospital}}</text>
 				</view>
 			</view>
 		</view>
+		<!-- 待接单 -->
 		<view class="list-wrap list-wrap-orange" v-else-if="currentIndex == 2">
 			<view v-for="(item,idx) in useState" :key="idx" class="patient-card">
 				<!-- 头部行：头像 + 姓名年龄时间 + 查看详情 -->
@@ -127,10 +130,11 @@
 					<u-icon name="phone" color="#909399" size="32rpx"></u-icon>
 					<text class="bottom-text">{{item.phone}}</text>
 				</view>
-				<view class="bottom-item">
+				<view class="bottom-item" style="margin-bottom: 0;">
 					<u-icon name="map" color="#909399" size="32rpx"></u-icon>
 					<text class="bottom-text">{{item.address}}</text>
 				</view>
+				<u-button class="width-100 margin-top-1 button-orange"  hairline="false"  text="接单"></u-button>
 			</view>
 		</view>
 <custom-tabbar :current="0"></custom-tabbar>
@@ -274,13 +278,18 @@
 
 
 <style scoped>
+	 .page-onsite .button-orange{
+		border-radius: 20rpx;
+		background-color: #ff6900;
+		color: white;
+	}
 	.list-wrap-orange .card-avatar {
 		background-color: #fff7ed
 	}
 
 	.list-wrap-green .time-text {
 		color: #ff6900;
-		font-size: 18rpx;
+		/* font-size: 18rpx; */
 	}
 
 	.list-wrap-green .card-avatar {
@@ -289,7 +298,7 @@
 
 	.list-wrap-green .time-text {
 		color: #00c950;
-		font-size: 18rpx;
+		/* font-size: 18rpx; */
 	}
 
 	.page-onsite .u-grid {
@@ -423,4 +432,5 @@
 		font-size: 30rpx;
 		color: #444;
 	}
+	
 </style>

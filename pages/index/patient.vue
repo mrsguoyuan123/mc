@@ -11,7 +11,7 @@
             <text class="name font-l">{{detailData.name}}</text>
             <text class="font-info font-m">{{detailData.age}}岁</text>
           </view>
-          <text class="status font-s">{{detailData.status}}</text>
+          <text class="status">{{detailData.status}}</text>
         </view>
       </view>
 
@@ -115,6 +115,7 @@ export default {
 }
 .status {
   color: #00c950;
+  font-size: 30rpx;
 }
 
 .info-item {
