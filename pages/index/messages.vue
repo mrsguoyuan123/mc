@@ -5,7 +5,7 @@
 			<u-tabbar-item v-for="item in tabList" :key="item.id" :text="item.name" :icon="item.icon"
 				:badge="item.badge" @click="routeTo(item.route)"></u-tabbar-item>
 		</u-tabbar>
-		<view class=" u-flex space-between align-center " style="margin-bottom: 1rem;">
+		<view class=" u-flex space-between align-center margin-bottom-1">
 			<view>
 				<view class="view-text1 font-l">
 					沟通记录
@@ -14,11 +14,11 @@
 					MESSAGES
 				</view>
 			</view>
-			<view>
-				<view class="badge-bg  badge-blue-bg">
-					术后康复专属通道
-				</view>
+
+			<view class="badge-bg  badge-blue-bg border-blue">
+				术后康复专属通道
 			</view>
+
 		</view>
 		<view class="margin-bottom-1">
 			<u--input placeholder="搜索消息或通知" shape="circle" prefixIcon="search"
@@ -36,23 +36,15 @@
 			</u-tabs>
 
 		</view>
-		<!-- chatHistory: [{
-				id: "group-1",
-				name: "健康管理团队",
-				lastMsg: "张先生，您的手术切口照片已收到，主刀团队正在审核，稍后给您回复。",
-				time: "10:05",
-				unread: true,
-				unreadCount: 1,
-				type: "human",
-				status: "在线"
-			}, -->
-		<view v-for="(item,index) in chatHistory" class="radius-15 card-top bg-white card-border card-border-gray">
+	
+		<view v-for="(item,index) in chatHistory" class="radius-15 card-top bg-white card-border card-border-gray"  @click="routeTo('consultation')">
 			<view class=" massage-list">
 				<view class="massage-icon-left view-icon badge-blue-bg" v-if="item.type=='human'">
-					<u-icon name="Headset1" color="#155DFC" custom-prefix="custom-icon" bold="true" size="25"></u-icon>
+					<text class="custom-icon custom-icon-Headset1 icon-bold" style="font-size:40rpx;color:#155DFC;"></text>
 				</view>
 				<view class="massage-icon-left view-icon badge-orange-bg" v-else-if="item.type=='system'">
-					<u-icon name="order" color="#ff6900" bold="true" size="25"></u-icon>
+					
+					<text class="custom-icon custom-icon-order icon-bold" style="font-size:40rpx;color:#ff6900;"></text>
 				</view>
 				<view class="massage-content">
 					<!-- 内容 -->
@@ -60,24 +52,24 @@
 						<view class="view-text1 font-l">
 							{{item.name}}
 						</view>
-						<u--text size="12" class="font-info font-xs" :lines="1" :text="item.lastMsg"></u--text>
+						<u--text size="12" class="font-info font-s" :lines="1" :text="item.lastMsg"></u--text>
 					</view>
 					<!-- 时间  badge -->
 					<view class="massage-time u-flex align-center space-between  u-flex-column">
-						<view class="font-info font-xs">{{item.time}}</view>
+						<view class="font-info font-s">{{item.time}}</view>
 						<view>
 							<u-badge numberType="limit" max="99" :value="item.unreadCount"></u-badge>
 						</view>
 					</view>
 				</view>
 				<view class="massage-icon-right">
-					<u-icon name="arrow-right" color="#909399" size="16"></u-icon>
+					<u-icon name="arrow-right" color="#909399" size="30rpx"></u-icon>
 				</view>
 
 			</view>
 
 		</view>
-		
+
 	</view>
 </template>
 <script>
@@ -208,12 +200,5 @@
 </script>
 
 <style>
-	.page-message .view-text {
-		/* width: 12rem; */
-		overflow: hidden;
-	}
-
-	.page-message .bg-white {
-		padding: 1rem;
-	}
+	
 </style>

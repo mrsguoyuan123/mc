@@ -1,5 +1,5 @@
 <template>
-	<view class=" page-content">
+	<view class=" page-content page-register">
 		<view class="bg-absolute  bg-blue-top">
 
 		</view>
@@ -8,7 +8,7 @@
 			<view class="p2 margin-bottom-1">{{message2}}</view>
 
 			<view class="bg-white " v-show="isShow">
-				<u--form labelStyle="width:100px;color:#909399;fontSize:.6rem" labelPosition="left" :model="model1"
+				<u--form labelStyle="width:100px;color:#909399;fontSize:20rpx" labelPosition="left" :model="model1"
 					:rules="rules" ref="uForm">
 					<view class="view-between">
 						<u-form-item style="margin-right: 15px;" class="form-50" label="患者姓名" prop="userInfo.name"
@@ -61,7 +61,7 @@
 			<view class="bg-white " v-show="!isShow">
 
 				<view class="icon-wrapper">
-					<u-icon name="checkmark-circle" color="#19be6b" bold="true" size="50"></u-icon>
+					<u-icon name="checkmark-circle" color="#19be6b" bold="true" size="80rpx"></u-icon>
 				</view>
 				<view class="view-h1">
 					认证完成
@@ -73,7 +73,8 @@
 				<view class="view-card">
 
 					<view class="view-icon bg-white1 margin-right-10">
-						<u-icon  custom-prefix="custom-icon" name="stethoscope" color="#155DFC" bold="true" size="20"></u-icon>
+						<text class="custom-icon custom-icon-stethoscope icon-bold"
+							style="font-size:40rpx;color:#155DFC;"></text>
 					</view>
 					<view class="view-text">
 						<view class="view-text1">
@@ -201,44 +202,9 @@
 		justify-content: space-between;
 	}
 
-	.view-card {
-		padding: 1rem;
-		border-radius: 10px;
-		border: #a0cfff solid 1px;
-		margin: 3rem auto;
-		background-color: #ecf5ff;
-		opacity: .8;
-	}
 
-
-
-
-
-
-	.view-h1 {
-		font-weight: bold;
-		/* color: #82848a; */
-		font-size: 1.6rem;
-		margin: 1rem auto;
-		text-align: center;
-	}
-
-	.view-h5 {
-		text-align: center;
-		color: #909399;
-		font-size: .8rem;
-	}
-
-	.form-50 {
-		/* width: 50%;
-		float: left; */
-	}
-
-	
-
-	.bg-blue-top {
-		height: 10rem;
-
+	.page-register .bg-blue-top {
+		height: 300rpx;
 		border-bottom-right-radius: 40px;
 		border-bottom-left-radius: 40px;
 		background-color: #155DFC;
@@ -247,6 +213,4 @@
 		left: 0;
 		right: 0;
 	}
-
-
 </style>

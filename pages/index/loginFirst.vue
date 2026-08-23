@@ -21,10 +21,10 @@
 				class="card-list radius-15 card-top bg-white card-border card-border-gray">
 				<view class=" massage-list">
 					<view class="massage-icon-left view-icon bg-white1 margin-right-10 " v-if="item.routeto=='home'">
-						<u-icon name="account" color="#16c288" bold="true" size="25"></u-icon>
+						<u-icon name="account" color="#16c288" bold="true" size="40rpx"></u-icon>
 					</view>
 					<view class="massage-icon-left view-icon bg-white1 margin-right-10 " v-else-if="item.routeto=='onsite'">
-						<u-icon name="map" color="#155DFC" bold="true" size="25"></u-icon>
+						<u-icon name="map" color="#155DFC" bold="true" size="40rpx"></u-icon>
 					</view>
 
 					<view class="massage-content">
@@ -33,12 +33,12 @@
 							<view class="view-text1 font-l">
 								{{item.name}}
 							</view>
-							<u--text size="12" class="font-info font-xs" :lines="1" :text="item.lastMsg"></u--text>
+							<u--text size="12" class="font-info font-s" :lines="1" :text="item.lastMsg"></u--text>
 						</view>
 
 					</view>
 					<view class="massage-icon-right">
-						<u-icon name="arrow-right" color="#909399" size="16"></u-icon>
+						<u-icon name="arrow-right" color="#909399" size="20rpx"></u-icon>
 					</view>
 
 				</view>
@@ -81,38 +81,19 @@
 					title: 'hello',
 					id: 1
 				}
-
-
-				uni.navigateTo({
-					url: `../index/`+ item.routeto+`?data=` + encodeURIComponent(JSON.stringify(data))
-				})
-				// uni.navigateTo({
-				//        url: 'pages/loginFirst/loginFirst', // 携带参数
-				//        success: () => {
-				//          console.log('跳转成功');
-				//        },
-				//        fail: (err) => {
-				//          console.error('跳转失败', err);
-				//          uni.showToast({ title: '跳转失败，请检查路径', icon: 'none' });
-				//        }
-				//      });
-				// this.$refs.form.validate().then(res => {
-				// 	uni.hideLoading()
-				// 	console.log('表单数据信息：', res);
-				// 	 uni.navigateTo({
-				// 	        url: '/pages/loginFirst/loginFirst?id=1&name=test', // 携带参数
-				// 	        success: () => {
-				// 	          console.log('跳转成功');
-				// 	        },
-				// 	        fail: (err) => {
-				// 	          console.error('跳转失败', err);
-				// 	          uni.showToast({ title: '跳转失败，请检查路径', icon: 'none' });
-				// 	        }
-				// 	      });
-				// }).catch(err => {
-				// 	uni.hideLoading()
-				// 	console.log('表单错误信息：', err);
-				// })
+				console.log(item.routeto)
+				if(item.routeto == 'onsite'){
+					uni.switchTab({
+					  url: "/pages/index/onsite"
+					})
+				}else{
+					uni.navigateTo({
+						url: `../index/`+ item.routeto+`?data=` + encodeURIComponent(JSON.stringify(data))
+					})
+				}
+				
+				
+			
 			},
 			logOut(){
 				

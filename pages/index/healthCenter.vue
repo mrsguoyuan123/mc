@@ -1,17 +1,6 @@
 <template>
 	<view class="page-content page-heathCenter">
-		<!-- 		<swiper :indicator-dots="true" class="swiper">
-			<swiper-item>
-				<u-grid :border="true">
-					<u-grid-item :customStyle="{width:420+'rpx',height:220+'rpx'}" v-for="(item, index) in swiperList"
-						:index="index" :key="index">
-						<u-icon :customStyle="{paddingTop:20+'rpx'}" :name="item" :size="22"></u-icon>
-						<text class="grid-text">{{ '宫格' + (index + 1) }}</text>
-					</u-grid-item>
-				</u-grid>
-			</swiper-item>
 
-		</swiper> -->
 		<u-tabbar :value="activeTab" :placeholder="false" @change="name => activeTab = name" :fixed="true"
 			activeColor="rgb(21, 93, 252)" inactiveColor="#d2d6dd" :safeAreaInsetBottom="false">
 			<u-tabbar-item v-for="item in tabList" :key="item.id" :text="item.name" :icon="item.icon"
@@ -19,31 +8,31 @@
 		</u-tabbar>
 
 		<view class="margin-bottom-1">
-			<view class="font-bold font-xl margin-bottom-5">健康管理中心</view>
+			<view class="font-bold font-l margin-bottom-5">健康管理中心</view>
 			<view class="u-flex ">
-				<u-icon name="info-circle" color="#ff6900" size="0.6rem"></u-icon>
+				<u-icon name="info-circle" color="#ff6900" size="18rpx"></u-icon>
 				<view class="font-s font-info margin-left-5">数据监测连续更新 · 术后第 12 天</view>
 			</view>
 
 		</view>
 		<view class="tab-scroll margin-bottom-1">
-
-			<swiper :indicator-dots="true" class="swiper">
-				<swiper-item>
+			<scroll-view scroll-x  class="scroll-x-box">
+				<view class="scroll-inner">
+					<!-- 子项，横向排开 -->
 					<view class="u-flex space-between align-center tab-wrapper">
 						<view @click="clickTab(item)" :class="activeTab2 == item.id?'activeTab':''"
 							v-for="item in tabList2" :key="item.id"
-							class="tab-icons radius-1 card-border-gray u-flex space-between align-center u-flex-column">
-							<u-icon :name="item.icon" :color="activeTab2 == item.id?'white':'#909399'"
-								custom-prefix="custom-icon" size="25"></u-icon>
+							class="tab-icons radius-1 card-border-gray u-flex space-between align-center u-flex-column margin-right-10">
+
+							<text :color="activeTab2 == item.id?'white':'#a1a5af'" :class="'custom-icon-' + item.icon"
+								class="custom-icon  icon-bold margin-bottom-5" style="font-size:40rpx;"></text>
 							<view class="font-info font-s font-bold tab-font ">
 								{{item.name}}
 							</view>
 						</view>
 					</view>
-				</swiper-item>
-			</swiper>
-
+				</view>
+			</scroll-view>
 		</view>
 		<!-- 饮食分析 -->
 		<view v-if="activeTab2 == 1">
@@ -73,54 +62,55 @@
 			<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between u-flex-column ">
 				<view class="header-text">
 					<view class="header-icon ">
-						<view class="header-name font-bold">
+						<view class="header-name font-bold font-m">
 							饮食分析报告
 						</view>
 					</view>
-					<view class="font-green font-xs font-bold">
+					<view class="font-green font-s font-bold">
 						今日累计
 					</view>
 				</view>
 				<view class="float-wrapper">
 					<view class="u-float-left u-width-50">
-						<view class="font-xs font-info margin-bottom-5">总热量</view>
+						<view class="font-s font-info margin-bottom-5">总热量</view>
 						<view class="u-flex  column-center">
-							<view class="font-xl font-bold  margin-right-5">546</view>
+							<view class="font-l font-bold  margin-right-5">546</view>
 							<view class="font-s font-info  ">kal</view>
 						</view>
 					</view>
 					<view class="u-float-left u-width-50">
-						<view class="font-xs font-info margin-bottom-5">蛋白质</view>
+						<view class="font-s font-info margin-bottom-5">蛋白质</view>
 						<view class="u-flex  column-center">
-							<view class="font-xl font-bold  margin-right-5">546</view>
+							<view class="font-l font-bold  margin-right-5">546</view>
 							<view class="font-s font-info  ">g</view>
 						</view>
 					</view>
 				</view>
 				<view class="radius-15 bg-gray gray-content">
-					<view class="font-bold font-l margin-bottom-1">营养占比分析</view>
-					<view class="u-flex  space-around">
-						<view class="badge-blue-bg radius-1 padding-15">
-							<view class="font-xl font-bold">24.4</view>
-							<view class="font-xs font-info">蛋白质（g)</view>
+					<view class="font-bold font-s margin-bottom-1">营养占比分析</view>
+					<view class="u-flex  space-between u-badge">
+						<view class="badge-blue-bg radius-1 padding-10">
+							<view class="font-l font-bold">24.4</view>
+							<view class="font-s font-info">蛋白质（g)</view>
 						</view>
-						<view class="badge-orange-bg radius-1 padding-15">
-							<view class="font-xl font-bold">24.4</view>
-							<view class="font-xs font-info">碳物（g)</view>
+						<view class="badge-orange-bg radius-1 padding-10">
+							<view class="font-l font-bold">24.4</view>
+							<view class="font-s font-info">碳物（g)</view>
 						</view>
-						<view class="badge-green-bg radius-1 padding-15">
-							<view class="font-xl font-bold">24.4</view>
-							<view class="font-xs font-info">维生素</view>
+						<view class="badge-green-bg radius-1 padding-10">
+							<view class="font-l font-bold">24.4</view>
+							<view class="font-s font-info">维生素</view>
 						</view>
 					</view>
 					<view class="radius-1 bg-white margin-top-1 padding-1">
 						<view class="float-wrapper ">
-							<u-icon class="u-float-left" name="trending-up" custom-prefix="custom-icon" color="#009689"
-								bold="true" size="0.6rem"></u-icon>
-							<text class=" font-green font-xs margin-left-5">
+							<text class="custom-icon custom-icon-trending-up icon-bold"
+								style="font-size:20rpx;color:#00a63e;"></text>
+
+							<text class=" font-green font-s margin-left-5">
 								医学专业评估：
 							</text>
-							<text class="  font-xs margin-left-5">
+							<text class="  font-s margin-left-5">
 								当前膳食结构符合术后康复标准，蛋白质占比 24% 处于理想区间。
 							</text>
 						</view>
@@ -128,15 +118,15 @@
 					</view>
 					<view class="radius-1 bg-white margin-top-1 padding-1 border-blue bg-linear-blue">
 						<view class="u-flex space-start">
-							<u-icon name="checkmark-circle" color="#155DFC" bold="true" size="1rem"></u-icon>
+							<u-icon name="checkmark-circle" color="#155DFC" bold="true" size="20rpx"></u-icon>
 							<text class=" font-bold font-s margin-left-5">
 								本周饮食汇总
 							</text>
 						</view>
-						<view class="  font-xs margin-top-10">
+						<view class="  font-s margin-top-10">
 							本周平均热量摄入符合建议。建议适当增加深海鱼类摄入。
 						</view>
-						<view class="font-blue font-xs margin-top-10 font-bold">
+						<view class="font-blue font-s margin-top-10 font-bold">
 							查看详细报告 →
 						</view>
 					</view>
@@ -150,11 +140,11 @@
 			<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between u-flex-column ">
 				<view class="header-text">
 					<view class="header-icon ">
-						<view class="header-name font-bold">
+						<view class="header-name font-bold font-m">
 							今日运动方案
 						</view>
 					</view>
-					<view class="font-blue font-xs font-bold">
+					<view class="font-blue font-s font-bold">
 						术后康复期 (第2阶段)
 					</view>
 				</view>
@@ -163,13 +153,13 @@
 					class="u-flex space-between radius-1 margin-bottom-1 badge-gray-bg bg-gray padding-1 healthCheckbox">
 					<view class="u-flex align-center">
 						<view v-if="!item.completed">
-							<u-icon name="checkmark-circle" color="#909399" size="20"></u-icon>
+							<u-icon name="checkmark-circle" color="#909399" size="30rpx"></u-icon>
 						</view>
 						<view v-else>
-							<u-icon name="checkmark-circle-fill" color="#155dfc" size="20"></u-icon>
+							<u-icon name="checkmark-circle-fill" color="#155dfc" size="30rpx"></u-icon>
 						</view>
 						<view class="margin-left-5">
-							<view class="font-bold  font-m font-gray-dark">{{item.name}}</view>
+							<view class="font-bold  font-m font-gray-dark ">{{item.name}}</view>
 							<view class="font-info font-s">{{item.duration}}</view>
 						</view>
 
@@ -180,13 +170,14 @@
 			</view>
 			<view class="radius-1 bg-white margin-top-1 padding-1 border-blue bg-linear-purple">
 				<view class="u-flex space-start">
-					<u-icon name="trending-up" custom-prefix="custom-icon" color="#155DFC" bold="true"
-						size="0.8rem"></u-icon>
-					<text class=" font-bold font-m margin-left-5">
+					<text class="custom-icon custom-icon-trending-up icon-bold"
+						style="font-size:18rpx;color:#155DFC;"></text>
+
+					<text class=" font-bold font-s margin-left-5">
 						运动建议
 					</text>
 				</view>
-				<view class="font-xs margin-top-10">
+				<view class="font-s margin-top-10">
 					今日运动心率平稳，建议保持当前强度。若感到胸闷或气促请立即停止。
 				</view>
 			</view>
@@ -197,7 +188,7 @@
 			<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between u-flex-column ">
 				<view class="header-text">
 					<view class="header-icon ">
-						<view class="header-name font-bold">
+						<view class="header-name font-bold font-m">
 							今日体重记录
 						</view>
 					</view>
@@ -215,29 +206,30 @@
 			<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between u-flex-column ">
 				<view class="header-text">
 					<view class="header-icon ">
-						<view class="header-name font-bold">
+						<view class="header-name font-bold font-m">
 							体重趋势
 						</view>
 					</view>
-					<view class="font-info font-xs ">
+					<view class="font-info font-s ">
 						近7天
 					</view>
 				</view>
 				<view class="header-text">
 					<view class="header-icon ">
-						<view class=" font-m">
+						<view class=" font-s">
 							当前体重
 						</view>
 					</view>
-					<view class="font-bold font-xl ">
+					<view class="font-bold font-l ">
 						65kg
 					</view>
 				</view>
 				<view class="radius-1 badge-green-bg  padding-1 card-green">
 					<view class="u-flex space-start">
-						<u-icon name="trending-down" custom-prefix="custom-icon" color="#009689" bold="true"
-							size="20"></u-icon>
-						<text class=" font-green font-l margin-left-5">
+						<text class="custom-icon custom-icon-trending-down icon-bold"
+							style="font-size:20rpx;color:#009689;"></text>
+
+						<text class=" font-green font-s margin-left-5">
 							较初始减重 1.7 kg
 						</text>
 
@@ -249,12 +241,12 @@
 
 			<view class="radius-1 bg-white margin-top-1 padding-1 border-orange bg-linear-orange">
 				<view class="u-flex space-start">
-					<u-icon name="info-circle" color="#ff6900" bold="true" size="1rem"></u-icon>
+					<u-icon name="info-circle" color="#ff6900" bold="true" size="20rpx"></u-icon>
 					<text class=" font-bold font-s margin-left-5">
 						医学监测预警
 					</text>
 				</view>
-				<view class="  font-xs margin-top-10">
+				<view class="  font-s margin-top-10">
 					体重控制处于安全区间，建议维持当前方案。
 				</view>
 			</view>
@@ -265,7 +257,7 @@
 			<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between u-flex-column ">
 				<view class="header-text">
 					<view class="header-icon ">
-						<view class="header-name font-bold">
+						<view class="header-name font-bold font-m">
 							今日数据录入
 						</view>
 					</view>
@@ -289,7 +281,7 @@
 			<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between u-flex-column ">
 				<view class="header-text">
 					<view class="header-icon ">
-						<view class="header-name font-bold">
+						<view class="header-name font-bold font-m">
 							今日数据对比
 						</view>
 					</view>
@@ -298,86 +290,75 @@
 				<view class="u-flex  space-between card-spe">
 					<view class="badge-blue-bg radius-1 padding-15 margin-right-1">
 						<view class="u-flex  space-start ">
-							<u-icon name="activity" custom-prefix="custom-icon" color="#155DFC" size="1rem"></u-icon>
+							<text class="custom-icon custom-icon-activity icon-bold"
+								style="font-size:30rpx;color:#155DFC;"></text>
 							<view class=" font-s margin-left-5">
 								血压
 							</view>
 						</view>
-						<view class="font-xl font-bold">24.4</view>
-						<view class="font-xs  font-green font-bold">正常范围</view>
+						<view class="font-l font-bold">24.4</view>
+						<view class="font-s  font-green font-bold">正常范围</view>
 					</view>
 
 					<view class="badge-green-bg radius-1 padding-15">
 						<view class="u-flex  space-start ">
-							<u-icon name="activity" custom-prefix="custom-icon" color="#00a63e" size="1rem"></u-icon>
+							<text class="custom-icon custom-icon-activity icon-bold"
+								style="font-size:30rpx;color:#00a63e;"></text>
 							<view class=" font-s margin-left-5">
 								血糖
 							</view>
 						</view>
-						<view class="font-xl font-bold">24.4</view>
-						<view class="font-xs  font-green font-bold">控制良好</view>
+						<view class="font-l font-bold">24.4</view>
+						<view class="font-s  font-green font-bold">控制良好</view>
 					</view>
 				</view>
 			</view>
 		</view>
 		<!-- 睡眠管理 -->
-		<view v-else-if="activeTab2 == 5">
+		<view v-else-if="activeTab2 == 5" class="heath-5">
 			<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between u-flex-column ">
 				<view class="header-text">
 					<view class="header-icon ">
-						<view class="font-l font-bold">
+						<view class="font-l font-bold font-m">
 							今日用药
 						</view>
 					</view>
-					<view class="font-blue font-bold font-xs ">
+					<view class="font-blue font-bold font-s ">
 						+添加
 					</view>
 				</view>
 
-				<view class="card-list  radius-1 card-top badge-green-bg card-border border-green">
-					<view class=" massage-list">
-						<view class="massage-icon-left massage-icon-left1 view-icon  margin-right-10 ">
-							<u-icon name="check-circle" custom-prefix="custom-icon" color="white" size="25"></u-icon>
+				<view class="card-list  radius-1 medication-wrapper margin-bottom-1 no-shadow"
+					:class="item.taken? 'medicationTake' : ''" v-for="item in medicationList" :key="item.id">
+					<view class=" massage-list u-flex align-center flex-center">
+						<view class="massage-icon-left  view-icon  ">
+							<u-icon v-if="item.taken" name="checkmark-circle" color="white" size="40rpx"></u-icon>
+							<text v-else class="custom-icon custom-icon-PillOutline icon-bold"
+								style="font-size:40rpx;color:white;"></text>
 						</view>
-
-
 						<view class="massage-content">
 							<!-- 内容 -->
 							<view class="view-text">
-								<view class=" font-m margin-bottom-5 font-black font-bold">
-									阿司匹林肠溶片
+								<u--text size="18rpx" bold="true" class=" font-m  font-black font-bold " lines="1"
+									:text="item.name"></u--text>
+
+								<view class="badge-wrapper margin-top-1">
+									<view class="font-info font-s">
+										{{item.dosage}}
+									</view>
+									<view class="font-info font-s">
+										{{item.time}}
+									</view>
+									<!-- <u--text size="16rpx" class="font-info font-s" :lines="1" :text="item.dosage"></u--text> -->
+									<!-- <u--text size="16rpx" class="font-info font-s" :lines="1" :text="item.time"></u--text> -->
 								</view>
-								<u--text size="12" class="font-info font-xs" :lines="1" text="100mg · 早餐后"></u--text>
 							</view>
 
 						</view>
 
-
-					</view>
-
-				</view>
-				<view class="card-list  radius-1 card-top margin-top-1 card-border-gray no-shadow ">
-					<view class=" massage-list">
-						<view
-							class="massage-icon-left massage-icon-left2   massage-icon-left2 view-icon  margin-right-10 ">
-							<u-icon name="PillOutline" custom-prefix="custom-icon" color="white" size="25"></u-icon>
-						</view>
-
-
-						<view class="massage-content">
-							<!-- 内容 -->
-							<view class="view-text">
-								<view class=" font-m margin-bottom-5 font-black font-bold">
-									阿托伐他汀钙片
-								</view>
-								<u--text size="12" class="font-info font-xs" :lines="1" text="100mg · 早餐后"></u--text>
-							</view>
-
-						</view>
-						<view class="massage-icon-right font-blue font-bold font-xs">
+						<view v-show="!item.taken" class="massage-icon-right font-blue font-bold font-s">
 							标记已服用
 						</view>
-
 					</view>
 
 				</view>
@@ -385,37 +366,37 @@
 			</view>
 			<view class="radius-1 bg-white margin-top-1 padding-1 border-pink bg-linear-pink">
 				<view class="u-flex space-start">
-
-					<u-icon name="PillOutline" custom-prefix="custom-icon" color="#9810fa" size="1rem"></u-icon>
+					<text class="custom-icon custom-icon-PillOutline icon-bold"
+						style="font-size:18rpx;color:#9810fa;"></text>
 					<text class=" font-bold font-s margin-left-5">
 						用药提醒设置
 					</text>
 				</view>
-				<view class="  font-xs margin-top-10">
+				<view class="  font-s margin-top-10">
 					系统将在每日 8:00 和 19:00 推送用药提醒。
 				</view>
-				<view class="font-blue font-xs margin-top-10 font-bold">
+				<view class="font-blue font-s margin-top-10 font-bold">
 					编辑提醒时间 →
 				</view>
 			</view>
 
 		</view>
-		<view v-else-if="activeTab2 == 6">
+		<view v-else-if="activeTab2 == 6" class="">
 			<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between u-flex-column ">
 				<view class="radius-1   padding-1  bg-gray-dark gray-content width-100-2rem">
 					<view class="  font-m margin-bottom-1">
 						睡眠评估
 					</view>
 					<view class="u-flex space-start">
-						<u-icon name="check-circle" custom-prefix="custom-icon" color="#00a63e" size="1rem"></u-icon>
-						<text class="  font-xs margin-left-5">
+						<u-icon name="checkmark-circle" color="#00a63e" size="18rpx"></u-icon>
+						<text class="  font-s margin-left-5">
 							睡眠质量良好
 						</text>
 					</view>
 
 
 				</view>
-				<view class="font-blue font-xs margin-top-10 font-bold width-100">
+				<view class="font-blue font-s margin-top-10 font-bold width-100">
 					记录今日睡眠 →
 				</view>
 			</view>
@@ -429,25 +410,28 @@
 
 				</view>
 
-				<view class="card-list  radius-1 card-top  card-border card-border-gray no-shadow bg-gray">
-					<view class=" massage-list">
+				<view
+					class="card-list  radius-1 card-top  card-border card-border-gray no-shadow bg-gray margin-bottom-1"
+					v-for="item in articleList" :key="item.id">
+					<view class="massage-list heath-6">
 
 						<view class="massage-icon-left view-icon badge-blue-bg">
-							<u-icon name="file-text" color="#155DFC" bold="true" size="25"></u-icon>
+							<u-icon name="file-text" color="#155DFC" bold="true" size="40rpx"></u-icon>
 						</view>
 
-						<view class="massage-content">
+						<view class="">
 							<!-- 内容 -->
 							<view class="view-text">
-								<view class=" font-m margin-bottom-5 font-black font-bold">
-									术后焦虑怎么办？专业医生为您解答
+								<view class=" font-s margin-bottom-5 font-black font-bold">
+									{{item.title}}
 								</view>
 								<view class="u-flex space-start">
-									<view class="badge-bg  badge-blue-bg">
-											文章
-										</view>
-										<u--text size="12" class="font-info font-xs" :lines="1" text="5分钟"></u--text>
-									
+									<view class="badge-bg  badge-blue-bg margin-right-5">
+										{{item.type}}
+									</view>
+									<u--text size="16rpx" class="font-info font-s" :lines="1"
+										:text="item.duration"></u--text>
+
 								</view>
 							</view>
 
@@ -457,41 +441,14 @@
 					</view>
 
 				</view>
-				<view class="card-list margin-top-1  radius-1 card-top  card-border card-border-gray no-shadow bg-gray">
-					<view class=" massage-list">
-						<view class="massage-icon-left view-icon badge-blue-bg">
-							<u-icon name="heart" color="#155DFC" bold="true" size="25"></u-icon>
-						</view>
 
-
-						<view class="massage-content">
-							<!-- 内容 -->
-							<view class="view-text">
-								<view class=" font-m margin-bottom-5 font-black font-bold">
-									康复期的正念冥想练习
-								</view>
-								<view class="u-flex space-start">
-									<view class="badge-bg  badge-blue-bg">
-											视频
-										</view>
-										<u--text size="12" class="font-info font-xs" :lines="1" text="5分钟"></u--text>
-									
-								</view>
-							</view>
-
-						</view>
-
-
-					</view>
-
-				</view>
 
 
 			</view>
 
 		</view>
-		<view v-show="activeTab2 != 5" class="button-wrapper u-flex flex-center" @click="showToast()" ref="uToast">
-			<u-icon name="navigation" custom-prefix="custom-icon" color="#155DFC" bold="true"></u-icon>
+		<view v-show="activeTab2 != 5" class="button-wrapper u-flex flex-center font-s" @click="showToast()" ref="uToast">
+			<text class="custom-icon custom-icon-navigation icon-bold"  style="color:#155DFC;margin-right: 5px;"></text>
 			同步到我的私人医生团队
 		</view>
 	</view>
@@ -502,7 +459,33 @@
 			return {
 				show: false,
 				activeTab: 1,
-				activeTab2: 6,
+				activeTab2: 1,
+				medicationList: [{
+						id: 1,
+						name: "阿司匹林肠溶片阿司匹林肠溶片阿司匹林肠溶片阿司匹林肠溶片",
+						time: "早餐后",
+						dosage: "100mg",
+						taken: true
+					},
+					{
+						id: 1,
+						name: "阿托伐他汀钙片阿托伐他汀钙片阿托伐他汀钙片阿托伐他汀钙片阿托伐他汀钙片",
+						time: "早餐后",
+						dosage: "100mg",
+						taken: false
+					},
+				],
+				articleList: [{
+					id: 1,
+					title: "术后焦虑怎么办？专业医生为您解答",
+					type: "文章",
+					duration: "分钟"
+				}, {
+					id: 1,
+					title: "术后焦虑怎么办？专业医生为您解答",
+					type: "文章",
+					duration: "分钟"
+				}, ],
 				useState: [{
 						id: 1,
 						name: "有氧步行 (散步)",
@@ -558,7 +541,7 @@
 				}, {
 					id: 2,
 					name: "运动处方",
-					icon: "camera",
+					icon: "sport-shoe",
 					badge: "",
 					route: "healthCenter"
 				}, {
@@ -657,13 +640,105 @@
 </script>
 
 
-<style>
+<style scoped>
+	/* .tab-wrapper {
+		::v-deep .u-icon__label {
+			display: none !important;
+		}
+	} */
+	.page-heathCenter .card-list {
+		padding: 30rpx
+	}
+
+	.page-heathCenter .medication-wrapper.card-list {
+		border: 2px solid #dddd;
+		padding: 30rpx
+	}
+
+	.page-heathCenter .medicationTake {
+		border: 2px solid #dbfce7;
+		background-color: #f0fdf4;
+	}
+
+
+	.page-heathCenter .card-list .badge-blue-bg {
+		background-color: #eff6ff;
+	}
+
+	/* 左边图标 */
+	.page-heathCenter .massage-list .massage-icon-left {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 40rpx;
+		height: 40rpx;
+	}
+
+	/* 未标记药品 */
+	.page-heathCenter .card-list .massage-icon-left {
+		background-color: #c8c9cc;
+		border-radius: 100%;
+	}
+
+	/* 右边文字 标记已服用*/
+	.page-heathCenter .massage-list .massage-icon-right {
+		width: 120rpx;
+		/* border: 1px solid red; */
+		position: absolute;
+		right: 0;
+		top: calc(50% - 20rpx);
+	}
+
+	/* 中间内容 未标记 */
+	.page-heathCenter .massage-list {
+		position: relative;
+		width: calc(100% - 220rpx);
+		/* border: 1px solid; */
+		padding: 0 150rpx 0 90rpx;
+		height: 80rpx;
+	}
+
+	/* 已标记 */
+	.page-heathCenter .medicationTake .massage-list {
+		width: calc(100% - 80rpx);
+		padding: 0 30rpx 0 90rpx;
+	}
+
+	.page-heathCenter .medicationTake .massage-icon-left {
+		background-color: #c8c9cc;
+		background-color: #00c950;
+	}
+
+	.page-heathCenter .card-list .badge-blue-bg {
+		background-color: #eff6ff;
+	}
+
+	.page-heathCenter .activeCheckbox {
+		border: 1px solid #dae9fd;
+		background-color: #eff6ff;
+	}
+
+	.page-heathCenter .activeCheckbox .font-bold {
+		color: #1c398e;
+	}
+
+
+	.page-heathCenter .bg-gray {
+		/* width:100% */
+		width: calc(100% - 30rpx)
+	}
+
+	.page-heathCenter .heath-6 {
+		padding-right: 0;
+		width: 100%;
+	}
+
 	.page-heathCenter .badge {
 		height: max-content;
 	}
 
 	.healthCheckbox {
-		width: calc(100% - 2rem);
+		width: calc(100% - 60rpx);
 		border: 1px solid #f3f4f6;
 	}
 
@@ -679,15 +754,16 @@
 		border-radius: 10px;
 		padding: 10px;
 		color: white;
-		width: calc(100% - 1rem);
+		width: calc(100% - 30rpx);
 	}
 
 	.page-heathCenter .header-text {
 		width: 100%;
-		margin: 0 0 1rem 0;
+		margin: 0 0 30rpx 0;
 	}
 
 	.page-heathCenter {
+		padding-bottom: 120rpx;
 		/* width: 100%; */
 	}
 
@@ -701,12 +777,43 @@
 		width: 100%;
 	}
 
-	/* .weight-wrapper .u-input{
-		width: calc(100% - 30px);
-		
+	.page-heathCenter .card-green {
+		width: calc(100% - 30rpx);
+	}
+
+	.page-heathCenter .input-wrapper {
+		width: 100%;
+	}
+
+	.page-heathCenter .card-spe {
+		width: 100%;
+	}
+
+	.page-heathCenter .card-spe>view {
+		color: black;
+		width: calc(50% - 15rpx);
+	}
+
+	/* 	.page-heathCenter .massage-icon-left1 {
+		background-color: #00c950;
+		border-radius: 100%;
+	}
+
+	.page-heathCenter .massage-icon-left2 {
+		background-color: #d1d5dc;
+		border-radius: 100%;
 	} */
 
-	/* 	.page-heathCenter .u-grid {
-		text-align: left;
+	.page-heathCenter .card-list {
+		width: calc(100% - 60rpx);
+	}
+
+	/* 	.heath-5 .massage-content {
+		padding-left: 20rpx;
+
 	} */
+
+	.u-badge>view {
+		width: calc(33% - 20px);
+	}
 </style>

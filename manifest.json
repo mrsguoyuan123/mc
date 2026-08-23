@@ -54,7 +54,13 @@
         "setting" : {
             "urlCheck" : false
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+		"permission": {
+		  "scope.userLocation": {
+		    "desc": "用于陪诊定位打卡"
+		  }
+		},
+		"requiredPrivateInfos": ["chooseLocation","getLocation"]
     },
     "mp-alipay" : {
         "usingComponents" : true

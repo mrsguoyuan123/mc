@@ -1,14 +1,14 @@
 <template>
-	<view class="page-content">
+	<view class="page-content page-profile">
 		<u-tabbar :value="activeTab" :placeholder="false" @change="name => activeTab = name" :fixed="true"
 			activeColor="rgb(21, 93, 252)" inactiveColor="#d2d6dd" :safeAreaInsetBottom="false">
 			<u-tabbar-item v-for="item in tabList" :key="item.id" :text="item.name" :icon="item.icon"
 				:badge="item.badge" @click="routeTo(item.route)"></u-tabbar-item>
 		</u-tabbar>
-		<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between">
+		<view class="radius-15 card-top bg-white card-border card-border-gray  u-flex space-between" @click="routeTo('records')">
 			<view class="u-flex ">
 				<view class="view-icon bg-orange margin-right-5">
-					<u-icon name="order" color="#ff6900" bold="true" size="25"></u-icon>
+					<u-icon name="order" color="#ff6900" bold="true" size="40rpx"></u-icon>
 				</view>
 				<view class="view-text">
 					<view class="view-text1 font-l">
@@ -21,7 +21,7 @@
 
 			</view>
 			<view class="">
-				<u-icon name="arrow-right" color="#909399" size="15"></u-icon>
+				<u-icon name="arrow-right" color="#909399" size="20rpx"></u-icon>
 			</view>
 
 		</view>
@@ -29,7 +29,7 @@
 		<view class="radius-15  bg-white card-border card-border-gray ">
 			<view>基本信息</view>
 			<view>
-				<u--form labelStyle="width:100px;color:#909399;fontSize:.6rem" labelPosition="left" :model="model1"
+				<u--form labelStyle="width:100px;color:#909399;fontSize:20rpx" labelPosition="left" :model="model1"
 					:rules="rules" ref="uForm">
 					<view class="view-between">
 						<u-form-item label="姓名" prop="userInfo.name" labelWidth="100%" labelPosition="top" labelStyle="{
@@ -71,7 +71,7 @@
 		<view class="radius-15  bg-white card-border card-border-gray ">
 			<view>手术信息</view>
 			<view>
-				<u--form labelStyle="width:100px;color:#909399;fontSize:.6rem" labelPosition="left" :model="model1"
+				<u--form labelStyle="width:100px;color:#909399;fontSize:20rpx" labelPosition="left" :model="model1"
 					:rules="rules" ref="uForm">
 
 
@@ -101,7 +101,8 @@
 			</view>
 
 		</view>
-		<u-button hairline="false" @click="logOut()" type="error" text="退出当前账号" style="margin: 1rem;"></u-button>
+		
+		<u-button class="width-100"  shape="circle"  hairline="false" @click="logOut()" type="error" text="退出当前账号" ></u-button>
 
 	</view>
 </template>
@@ -182,13 +183,12 @@
 			},
 
 			routeTo(res) {
-
+				
 				let data = {
 					title: 'hello',
 					id: 1
 				}
-
-
+				console.log(res)
 				uni.navigateTo({
 					url: `../index/` + res + `?data=` + encodeURIComponent(JSON.stringify(data))
 				})
@@ -218,91 +218,7 @@
 </script>
 
 <style scoped lang="scss">
-	.page-content {
-		padding-bottom: 50px;
-	}
-
-	.view-text1 {
-		font-size: 1rem;
-		margin-bottom: 5px;
-		font-weight: bold;
-		// color: #2b85e4;
-	}
-
-
-
-	.view-h1 {
-		font-weight: bold;
-		/* color: #82848a; */
-		font-size: 1.6rem;
-		margin: 1rem auto;
-		text-align: center;
-	}
-
-	.view-h5 {
-		text-align: center;
-		;
-		font-size: .8rem;
-	}
-
-
-
-	.view-card {
-		padding: 1rem;
-		border-radius: 10px;
-		border: #a0cfff solid 1px;
-		margin: 3rem auto;
-		background-color: #ecf5ff;
-		opacity: .8;
-	}
-
-	.card-top {
-		padding: 1rem;
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: nowrap;
-		align-items: center;
-
-	}
-
-	.view-card {
-		padding: 1rem;
-		border-radius: 10px;
-		border: #a0cfff solid 1px;
-		margin: 3rem auto;
-		background-color: #ecf5ff;
-		opacity: .8;
-	}
-
-
-
-
-
-
-	.view-h1 {
-		font-weight: bold;
-		/* color: #82848a; */
-		font-size: 1.6rem;
-		margin: 1rem auto;
-		text-align: center;
-	}
-
-	.view-h5 {
-		text-align: center;
-		;
-		font-size: .8rem;
-	}
-
-
-	.bg-blue {
-		height: 10rem;
-
-		border-bottom-right-radius: 40px;
-		border-bottom-left-radius: 40px;
-		background-color: #155DFC;
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
+	.page-profile{
+		padding-bottom: 70px;
 	}
 </style>

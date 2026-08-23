@@ -57,8 +57,65 @@
 					"style": {
 						"navigationBarTitleText": ""
 					}
+				},
+				{
+					"path": "pages/index/records",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "pages/index/consultation",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "pages/index/calendar",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "pages/index/patient",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				
+				{
+					"path": "pages/index/mine",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "pages/index/service",
+					"style": {
+						"navigationBarTitleText": ""
+					}
 				}
 	],
+	"tabBar": {
+	    "custom": true,
+	    "color": "#c0c4cc",
+	    "selectedColor": "#9c27b0",
+	    "backgroundColor": "#ffffff",
+	    "list": [
+	      {
+	        "pagePath": "pages/index/onsite",
+	        "text": "首页"
+	      },
+	      {
+	        "pagePath": "pages/index/service",
+	        "text": "服务中"
+	      },
+	      {
+	        "pagePath": "pages/index/mine",
+	        "text": "我的"
+	      }
+	    ]
+	  },
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
