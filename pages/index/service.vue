@@ -32,8 +32,9 @@
 					<u-icon name="map" size="32rpx" color="#666"></u-icon>
 					<text class="info-val">{{user.hospital}}</text>
 				</view>
-				<view class="nav-btn" @click="handleNav">
-					<u-icon name="navigation" size="30rpx" color="#9333ea"></u-icon>
+				<view class="nav-btn" @click="goNav">
+					<text class="custom-icon custom-icon-navigation icon-bold"
+						style="font-size:28rpx;color:#9333ea;"></text>
 					<text>导航</text>
 				</view>
 			</view>
@@ -48,15 +49,37 @@
 					<view class="dot" :class="getDotClass(1)"></view>
 					<view class="timeline-body">
 						<view class="task-title" :class="getTitleClass(1)">任务 1: 到院签到</view>
-						<view v-if="task1AllDone" class="done-row">
+						<view v-if="task1Done" class="done-row">
 							<u-icon name="checkmark-circle" color="#27ae60" size="34rpx"></u-icon>
 							<text class="done-text">已完成</text>
 						</view>
-						<view v-if="currentTask === 1 && !task1AllDone" class="btn-group">
-							<button class="action-btn" @click="doLocationCheck">定位打卡</button>
-							<button class="action-btn" @click="doPhotoCheck">拍照打卡</button>
-							<button v-if="task1AllDone" class="next-btn" @click="goTask2">下一步</button>
+						<view class="btn-group" v-if="currentTask === 1&& !task1Done">
+							<view>
+								<view v-if="locDone"
+									class="done-row border-green bg-green radius-15 padding-1 border-2">
+									<u-icon name="checkmark-circle" color="#27ae60" size="34rpx"></u-icon>
+									<text class="done-text font-bold text-center">定位打卡已完成</text>
+								</view>
+								<button v-else class="purple-btn radius-15" @click="locationCheck">
+									<u-icon name="map" size="36rpx" color="#fff"></u-icon>
+									<text>定位打卡</text>
+								</button>
+							</view>
+							<view>
+								<view v-if="photoDone"
+									class="done-row border-green bg-green radius-15 padding-1 border-2">
+									<u-icon name="checkmark-circle" color="#27ae60" size="34rpx"></u-icon>
+									<text class="done-text font-bold text-center">拍照打卡已完成</text>
+								</view>
+								<button v-else class="purple-btn  radius-15" @click="photoCheck">
+									<u-icon name="camera" size="36rpx" color="#fff"></u-icon>
+									<text>拍照打卡</text>
+								</button>
+							</view>
+
+							<button v-if="task1AllDone" class=" purple-btn  radius-15" @click="goTask2">下一步</button>
 						</view>
+
 					</view>
 				</view>
 
@@ -71,12 +94,14 @@
 						</view>
 						<view v-if="currentTask===2 && !task2Done" class="task-form">
 							<view class="form-label">当前进展描述</view>
-							<textarea class="textarea" v-model="progressDesc" placeholder=""></textarea>
+							<textarea class="textarea" v-model="submitForm.progressDesc" placeholder=""></textarea>
 							<view class="form-label">异常反馈</view>
-							<picker :value="abnormalIdx" :range="abnormalList" @change="onAbnormalChange">
-								<view class="picker-box">{{abnormalList[abnormalIdx]}}</view>
+					
+							<picker mode="selector" :value="submitForm.abnormalIdx" :range="abnormalList"
+								@change="onAbnormalChange">
+								<view class="picker-box">{{abnormalList[submitForm.abnormalIdx]}}</view>
 							</picker>
-							<button class="next-btn" @click="submitTask2">下一步</button>
+							<button :disabled="!btnDisabled1"  class="purple-btn  radius-15 margin-top-10" @click="submitTask2">下一步</button>
 						</view>
 					</view>
 				</view>
@@ -92,42 +117,45 @@
 						</view>
 						<view v-if="currentTask===3 && !task3Done" class="task-form">
 							<view class="form-label">陪诊总结</view>
-							<textarea class="textarea" v-model="summaryText" placeholder="请对本次陪诊服务进行总结..."></textarea>
+							<textarea class="textarea" v-model="submitForm.summaryText" placeholder="请对本次陪诊服务进行总结..."></textarea>
 							<view class="form-label">服务是否达成</view>
 							<view class="radio-group">
-								<view class="radio-item" :class="{active:serviceResult===1}" @click="serviceResult=1">
+								<view class="radio-item radius-15" :class="{active:submitForm.serviceResult===1}"
+									@click="submitForm.serviceResult=1">
 									已达成</view>
-								<view class="radio-item" :class="{active:serviceResult===0}" @click="serviceResult=0">
+								<view class="radio-item radius-15" :class="{active:submitForm.serviceResult===0}"
+									@click="submitForm.serviceResult=0">
 									未达成</view>
 							</view>
-							<button class="submit-btn" @click="submitAllRecord">提交陪诊记录</button>
+							<button  :disabled="!btnDisabled2"   class="submit-btn  radius-15 margin-top-10" @click="submitAllRecord">提交陪诊记录</button>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
 
-		<view class="tab-bar">
-			<view class="tab-item">
-				<u-icon name="home" size="44rpx"></u-icon>
-				<text>首页</text>
-			</view>
-			<view class="tab-item tab-active">
-				<u-icon name="bag" size="44rpx"></u-icon>
-				<text>服务中</text>
-			</view>
-			<view class="tab-item">
-				<u-icon name="person" size="44rpx"></u-icon>
-				<text>我的</text>
-			</view>
-		</view>
+		<custom-tabbar :current="1"></custom-tabbar>
 	</view>
 </template>
 
 <script>
+	import customTabbar from "@/components/custom-tabbar/custom-tabbar.vue";
+	// import { AMapWX } from "@/static/amap‑wx.130.js"
+
 	export default {
+		components: {
+			customTabbar
+		},
+		// onReady() {
+		//   // 动态require，不要写在顶部import，解决vite找不到模块
+		//   const AMapWX = require("@/static/amap‑wx.130.js").AMapWX;
+		//   this.amap = new AMapWX({
+		//     key: "73bfdddf9bc61ffba8add1e4afdb1247"
+		//   });
+		// },
 		data() {
 			return {
+				
 				showSubmitTip: false,
 				user: {
 					name: "孙患者",
@@ -136,24 +164,126 @@
 					phone: "138****5678",
 					hospital: "杭州市第一人民医院"
 				},
-				locDone: false,
-				photoDone: false,
-				currentTask: 2,
+				address: "杭州市西湖区西湖景区",
+				destLat: "", //目的地纬度 latitude
+				destLng: "", //目的地经度 longitude
+				locDone: false, //是否完成定位打卡
+				photoDone: false, //是否完成拍照打卡
+				currentTask: 1,
+				task1Done: false,
 				task2Done: false,
-				progressDesc: "ff",
-				abnormalIdx: 1,
-				abnormalList: ["无异常", "排队过久", "检查排队", "医生临时停诊", "其他"],
+				submitForm:{
+					progressDesc: "",
+					abnormalIdx: '',
+					summaryText: "",
+					serviceResult: '',
+				},
+				
+			
+				abnormalList: ["突发状况", "排队过久", "其他"],
 				task3Done: false,
-				summaryText: "",
-				serviceResult: 1
+			
+				task1Finished: false,
+
 			}
 		},
 		computed: {
 			task1AllDone() {
 				return this.locDone && this.photoDone
-			}
+			},
+			btnDisabled1(){
+				// console.log(this.submitForm.progressDesc!= '',this.submitForm.abnormalIdx!== '')
+				return this.submitForm.progressDesc!== '' && this.submitForm.abnormalIdx!== ''
+			},
+			btnDisabled2(){
+				return this.submitForm.summaryText!== '' && this.submitForm.serviceResult!== ''
+			},
 		},
 		methods: {
+			// 导航
+			goNav() {
+				
+				uni.openLocation({
+					latitude: 30.2741,
+					longitude: 120.1550,
+					name: "杭州市第一人民医院",
+					address: "杭州市第一人民医院",
+					fail: () => {
+						uni.showToast({
+							title: "打开地图失败",
+							icon: "none"
+						})
+					}
+				})
+			},
+			// 定位打卡
+			locationCheck() {
+				uni.chooseLocation({
+					success: (res) => {
+						console.log('选点结果', res)
+						uni.showModal({
+							title: "定位打卡成功",
+							content: `地址：${res.name}\n经纬度：${res.latitude},${res.longitude}`,
+							showCancel: false,
+							success: () => {
+								this.task1Finished = true;
+								this.locDone = true;
+							}
+						})
+					},
+					fail: (err) => {
+						console.error(err)
+						if (err.errMsg.includes("auth")) {
+							uni.showModal({
+								title: "需要位置权限",
+								content: "请开启位置权限才能定位打卡",
+								confirmText: "去设置",
+								success: (res) => {
+									if (res.confirm) uni.openSetting()
+								}
+							})
+						} else if (err.errMsg.includes('cancel')) {
+							uni.showToast({
+								title: "已取消定位打卡",
+								icon: "none"
+							})
+						} else {
+							uni.showToast({
+								title: "打开地图失败",
+								icon: "none"
+							})
+						}
+					}
+				})
+			},
+			// 拍照打卡
+			photoCheck() {
+				this.task1Finished = true;
+				this.photoDone = true
+				// uni.chooseMedia({
+				// 	count: 1,
+				// 	mediaType: ['image'],
+				// 	sourceType: ['camera'],
+				// 	success: (res) => {
+				// 		const tempPath = res.tempFiles[0].tempFilePath
+				// 		console.log("拍照路径", tempPath)
+				// 		// this.photoDone = true;
+				// 		uni.showModal({
+				// 			title: "拍照打卡成功",
+				// 			content: "拍照签到完成",
+				// 			showCancel: false,
+				// 			success: () => {
+				// 				this.task1Finished = true;
+				// 				this.photoDone = true
+
+				// 			}
+				// 		})
+				// 	}
+				// })
+			},
+
+
+
 			//获取圆点样式
 			getDotClass(taskNo) {
 				if (taskNo === 1 && this.task1AllDone) return "dot-finish";
@@ -170,20 +300,16 @@
 				if (this.currentTask > taskNo) return "text-gray";
 				return "";
 			},
-			doLocationCheck() {
-				this.locDone = true
-			},
-			doPhotoCheck() {
-				this.photoDone = true
-			},
+			// 进入第二步
 			goTask2() {
-				this.currentTask = 2
+				this.currentTask = 2;
+				this.task1Done = true
 			},
 			onAbnormalChange(e) {
-				this.abnormalIdx = Number(e.target.value)
+				this.submitForm.abnormalIdx = Number(e.detail.value)
 			},
 			submitTask2() {
-				if (!this.progressDesc.trim()) {
+				if (!this.submitForm.progressDesc.trim()) {
 					uni.showToast({
 						title: "请填写就诊进展",
 						icon: "none"
@@ -194,7 +320,7 @@
 				this.currentTask = 3
 			},
 			submitAllRecord() {
-				if (!this.summaryText.trim()) {
+				if (!this.submitForm.summaryText.trim()) {
 					uni.showToast({
 						title: "请填写陪诊总结",
 						icon: "none"
@@ -202,17 +328,90 @@
 					return
 				}
 				this.task3Done = true
-				this.showSubmitTip = true
+				this.showSubmitTip = true;
+				console.log(this.submitForm)
 				setTimeout(() => {
 					this.showSubmitTip = false
 				}, 3000)
 			},
-			handleNav() {
-				uni.showToast({
-					title: "跳转导航",
-					icon: "none"
+			/**
+			 * 1、地址转经纬度 高德http地理编码
+			 */
+			async getGeoByAddress(address) {
+				const AMAP_SERVER_KEY = 'e205ec9278f20ba483a3d7b01ebddd43'
+				return new Promise((resolve, reject) => {
+					uni.request({
+						url: "https://restapi.amap.com/v3/geocode/geo",
+						method: "GET",
+						data: {
+							address: address,
+							key: AMAP_SERVER_KEY
+						},
+						success: (res) => {
+							const data = res.data;
+							if (data.status === "1" && data.geocodes.length > 0) {
+								const item = data.geocodes[0];
+								const [lng, lat] = item.location.split(",");
+								resolve({
+									longitude: Number(lng),
+									latitude: Number(lat),
+									formattedAddress: item.formatted_address
+								})
+							} else {
+								reject("地址解析失败")
+							}
+						},
+						fail: (err) => {
+							reject(err)
+						}
+					})
 				})
+			},
+			
+			/**
+			 * 2、唤起高德导航App 【App端】
+			 * mode: 0驾车，1公交，2步行，3骑行
+			 */
+			openAmapNav(lat, lng, destName) {
+				// 高德Uri协议文档：https://lbs.amap.com/api/amap-mobile/guide/android/navigation
+				const url = `amapuri://route/plan/?dlat=${lat}&dlon=${lng}&dname=${encodeURIComponent(destName)}&dev=0&t=0`
+				plus.runtime.openURL(url, (err) => {
+					// 如果没有安装高德App，打开网页版导航
+					uni.showModal({
+						title: "提示",
+						content: "未检测到高德地图App，是否打开网页导航？",
+						success: (res) => {
+							if (res.confirm) {
+								const webUrl =
+									`https://uri.amap.com/navigation?to=${lng},${lat},${encodeURIComponent(destName)}&mode=car`
+								plus.runtime.openURL(webUrl)
+							}
+						}
+					})
+				})
+			},
+			
+			async goNav() {
+				try {
+					uni.showLoading({
+						title: "解析地址中..."
+					})
+					const geo = await this.getGeoByAddress(this.address);
+					console.log("得到经纬度：", geo)
+					this.destLat = geo.latitude;
+					this.destLng = geo.longitude;
+					uni.hideLoading();
+					this.openAmapNav(geo.latitude, geo.longitude, geo.formattedAddress)
+				} catch (e) {
+					uni.hideLoading();
+					uni.showToast({
+						title: e || "解析地址失败",
+						icon: "none"
+					})
+				}
 			}
+					
+
 		}
 	}
 </script>
@@ -419,16 +618,7 @@
 		border: none;
 	}
 
-	.next-btn {
-		width: 100%;
-		background: #9333ea;
-		color: #fff;
-		border-radius: 20rpx;
-		padding: 22rpx 0;
-		font-size: 34rpx;
-		margin-top: 20rpx;
-		border: none;
-	}
+
 
 	.form-label {
 		font-size: 30rpx;
@@ -449,9 +639,11 @@
 	.picker-box {
 		background: #f7f8fa;
 		border-radius: 20rpx;
-		padding: 24rpx;
+		padding:0 24rpx;
+		height: 80rpx;
+		line-height: 80rpx;
 		font-size: 30rpx;
-		border: 2rpx solid #9333ea;
+		border: 2rpx solid #ddd;
 	}
 
 	.radio-group {
@@ -463,9 +655,8 @@
 	.radio-item {
 		flex: 1;
 		text-align: center;
-		padding: 24rpx 0;
+		padding: 18rpx 0;
 		border: 2rpx solid #ddd;
-		border-radius: 20rpx;
 		font-size: 32rpx;
 	}
 
@@ -479,11 +670,11 @@
 		width: 100%;
 		background: #27ae60;
 		color: #fff;
-		border-radius: 20rpx;
-		padding: 22rpx 0;
+		/* border-radius: 20rpx; */
+		/* padding: 22rpx 0; */
 		font-size: 34rpx;
 		border: none;
-		margin-top: 20rpx;
+		/* margin-top: 20rpx; */
 	}
 
 	.tab-bar {
@@ -506,5 +697,26 @@
 
 	.tab-active {
 		color: #9333ea;
+	}
+
+	.btn-group {
+		display: flex;
+		flex-direction: column;
+		gap: 24rpx;
+	}
+
+	.purple-btn {
+		background: #9333ea;
+		color: #fff;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 32rpx;
+		border: none;
+	}
+
+	.purple-btn .u-icon {
+		margin-right: 5px;
 	}
 </style>

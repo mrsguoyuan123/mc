@@ -57,7 +57,7 @@
         "usingComponents" : true,
 		"permission": {
 		  "scope.userLocation": {
-		    "desc": "用于陪诊定位打卡"
+		    "desc": "用于陪诊定位打卡以及获取位置用于导航"
 		  }
 		},
 		"requiredPrivateInfos": ["chooseLocation","getLocation"]
@@ -76,8 +76,8 @@
         "sdkConfigs" : {
             "maps" : {
                 "amap" : {
-                    "key" : "e205ec9278f20ba483a3d7b01ebddd43",
-                    "securityJsCode" : "d868a155e84a1d8acc4f76dc13c7bcf3",
+                    "key" : "73bfdddf9bc61ffba8add1e4afdb1247",
+                    "securityJsCode" : "",
                     "serviceHost" : ""
                 }
             }

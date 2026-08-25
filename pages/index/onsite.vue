@@ -65,7 +65,7 @@
 						</view>
 					</view>
 					<view class="card-right">
-						<text class="detail-text"  @click="routeTo('patient')">查看详情</text>
+						<text class="detail-text" @click="routeTo('patient')">查看详情</text>
 					</view>
 				</view>
 
@@ -134,10 +134,12 @@
 					<u-icon name="map" color="#909399" size="32rpx"></u-icon>
 					<text class="bottom-text">{{item.address}}</text>
 				</view>
-				<u-button class="width-100 margin-top-1 button-orange"  hairline="false"  text="接单"></u-button>
+
+				<u-button class="width-100 margin-top-1" color="#ff6900" hairline="false" text="接单"></u-button>
+
 			</view>
 		</view>
-<custom-tabbar :current="0"></custom-tabbar>
+		<custom-tabbar :current="0"></custom-tabbar>
 	</view>
 </template>
 
@@ -146,7 +148,9 @@
 <script>
 	import customTabbar from "@/components/custom-tabbar/custom-tabbar.vue";
 	export default {
-		components: { customTabbar },
+		components: {
+			customTabbar
+		},
 		data() {
 			return {
 				record: {
@@ -265,9 +269,9 @@
 				uni.navigateTo({
 					url: `../index/` + res + `?data=` + encodeURIComponent(JSON.stringify(data))
 				})
-			
 
-			
+
+
 
 			},
 
@@ -278,11 +282,12 @@
 
 
 <style scoped>
-	 .page-onsite .button-orange{
+	.page-onsite .button-orange {
 		border-radius: 20rpx;
 		background-color: #ff6900;
 		color: white;
 	}
+
 	.list-wrap-orange .card-avatar {
 		background-color: #fff7ed
 	}
@@ -432,5 +437,4 @@
 		font-size: 30rpx;
 		color: #444;
 	}
-	
 </style>

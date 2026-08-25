@@ -258,7 +258,7 @@
 	.day-item.active {
 		background: #8b3ff2;
 		color: #fff;
-		border-radius: 50%;
+		border-radius:20rpx;
 	}
 
 	.day-item.empty {

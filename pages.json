@@ -94,7 +94,20 @@
 					"style": {
 						"navigationBarTitleText": ""
 					}
-				}
+				},
+				{
+					"path": "pages/index/workBench",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "pages/index/SystemCustomerService",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				
 	],
 	"tabBar": {
 	    "custom": true,
